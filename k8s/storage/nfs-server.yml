@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: nfs-server
+  namespace: immich
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nfs-server
+  template:
+    metadata:
+      labels:
+        app: nfs-server
+    spec:
+      containers:
+        - name: nfs-server
+          image: itsthenetwork/nfs-server-alpine:latest
+          ports:
+            - name: nfs 
+              containerPort: 2049
+            - name: mountd
+              containerPort: 20048
+            - name: rpcbind
+              containerPort: 111
+          securityContext:
+            privileged: true
+          env:
+            - name: SHARED_DIRECTORY
+              value: /exports
+          volumeMounts:
+            - name: nfs-volume 
+              mountPath: /exports
+      volumes:
+        - name: nfs-volume
+          persistentVolumeClaim:
+            claimName: nfs-pvc 
+---
+apiVersion: v1
+kind: Service 
+metadata:
+  name: nfs-service 
+  namespace: immich
+spec:
+  selector:
+    app: nfs-server
+  ports:
+    - name: nfs
+      port: 2049
+    - name: mountd
+      port: 20048
+    - name: rpcbind
+      port: 111
+  clusterIP: None #Headless 
+
+
+
