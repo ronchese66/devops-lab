@@ -17,7 +17,7 @@ The app is publicly accessible via an external LoadBalancer.
 
 Some intended features are not yet functioning as expected and will be revisited after migrating the application to a more robust cloud environment (e.g. AWS)
 
-More technical details can be found in the [k8s/](./k8s) directory and in the DEVLOG (to be published soon).
+More technical details can be found in the [k8s/](./k8s) directory and in the [DEVLOG](devlog.md).
 
 ## 📌 Near-term plans
 
@@ -25,9 +25,6 @@ This section outlines the key objectives I plan to tackle next as I continue imp
 
 - **Fix RWX (ReadWriteMany) support.**  
   The current setup includes an in-cluster NFS server configured for RWX access. However, the implementation is non-functional at the moment, and media storage currently falls back to node-local storage. The RWX issue will not be resolved in the current cluster — instead, I plan to address it properly once the project moves to an AWS-based production-ready setup.
-
-- **Introduce Helm charts.**  
-  I plan to replace the current static Kubernetes manifests with reusable and configurable Helm charts to simplify deployment and configuration management.
 
 - **Refactor and improve the current setup.**  
   I aim to revisit and fix suboptimal decisions, reorganize Kubernetes manifests, and improve structure, naming, and reliability across all project components.
