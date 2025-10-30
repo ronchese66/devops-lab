@@ -53,3 +53,13 @@ I plan to use this chart in future CI/CD pipelines.*
 The namespace is created separately, as is the injection of Sealed Secret.*
 
 ---
+### The Project has been restructured.
+*Oct, 29*
+
+✓ helm/ and k8s/ moved to archived/ and no relevant\
+✓ From now, IaC is located in [infrastructure/](./archived)\
+✓ Work resumed.
+
+*Returned to work with new knowledge.*\
+*Preparing for active development.*\
+*Configured Terraform Remote Backend (S3).*
