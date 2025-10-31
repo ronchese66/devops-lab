@@ -63,3 +63,13 @@ The namespace is created separately, as is the injection of Sealed Secret.*
 *Returned to work with new knowledge.*\
 *Preparing for active development.*\
 *Configured Terraform Remote Backend (S3).*
+
+---
+### Added basic VPC module
+*Oct, 31*
+
+✓ Add /modules/vpc\
+✓ Defined resources — VPC, Public and Private Subnets\
+✓ Changed module connection way from local to git with tags
+
+
