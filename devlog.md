@@ -72,4 +72,11 @@ The namespace is created separately, as is the injection of Sealed Secret.*
 ✓ Defined resources — VPC, Public and Private Subnets\
 ✓ Changed module connection way from local to git with tags
 
+---
+### New resources in Public Subnet
+*Nov, 03*
 
+✓ Add Internet Gateway\
+✓ Add Route Table\
+✓ Add NACL, Inbound/Outbound rules\
+✓ A bit of refactoring
