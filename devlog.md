@@ -80,3 +80,11 @@ The namespace is created separately, as is the injection of Sealed Secret.*
 ✓ Add Route Table\
 ✓ Add NACL, Inbound/Outbound rules\
 ✓ A bit of refactoring
+
+---
+### Private Subnet and NAT Gateway
+*Nov, 04*
+
+✓ Add Private Subnet's in 2 AZ, Route Tables and Routes\
+✓ Add NAT Gateway and ElasticIP per-AZ
+
