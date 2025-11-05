@@ -88,3 +88,8 @@ The namespace is created separately, as is the injection of Sealed Secret.*
 ✓ Add Private Subnet's in 2 AZ, Route Tables and Routes\
 ✓ Add NAT Gateway and ElasticIP per-AZ
 
+---
+### A little bug fixes
+*Nov, 05*
+
+*Next step: forming the Elastic Kubernetes Service module and future cluster.*
