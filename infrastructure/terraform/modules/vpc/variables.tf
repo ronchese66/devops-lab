@@ -11,11 +11,11 @@ variable "public_subnets" {
   }))
 
   default = {
-    "public-1a" = {
+    "1a" = {
       cidr = "10.0.1.0/24"
       az   = "us-east-1a"
     }
-    "public-1b" = {
+    "1b" = {
       cidr = "10.0.2.0/24"
       az   = "us-east-1b"
     }
@@ -29,11 +29,11 @@ variable "private_subnets" {
   }))
 
   default = {
-    "private-1a" = {
+    "1a" = {
       cidr = "10.0.101.0/24"
       az   = "us-east-1a"
     }
-    "private-1b" = {
+    "1b" = {
       cidr = "10.0.102.0/24"
       az   = "us-east-1b"
     }

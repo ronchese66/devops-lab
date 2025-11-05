@@ -6,10 +6,6 @@ resource "aws_vpc" "vpc" {
   tags = {
     Name = "${var.project_name}-vpc"
   }
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "aws_subnet" "private_subnets" {
@@ -21,45 +17,33 @@ resource "aws_subnet" "private_subnets" {
   availability_zone = each.value.az
 
   tags = {
-    Name = each.key
+    Name = "${var.project_name}-Private-${each.key}"
     type = "Private"
-  }
-
-  lifecycle {
-    prevent_destroy = true
   }
 }
 
 resource "aws_route_table" "private_rt" {
-  vpc_id = aws_vpc.vpc.id 
+  vpc_id   = aws_vpc.vpc.id
   for_each = var.private_subnets
 
   tags = {
     Name = "${var.project_name}-RT-${each.value.az}"
     Tier = "Private"
   }
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "aws_route" "private_nat_route" {
   destination_cidr_block = "0.0.0.0/0"
 
-  for_each = aws_route_table.private_rt
+  for_each       = aws_route_table.private_rt
   route_table_id = each.value.id
-  nat_gateway_id = aws_nat_gateway.nat_gw[each.key].id 
-
-  lifecycle {
-    prevent_destroy = true
-  }
+  nat_gateway_id = aws_nat_gateway.nat_gw[each.key].id
 }
 
 resource "aws_route_table_association" "private_rt_assoc" {
-  for_each = aws_subnet.private_subnets
-  subnet_id = each.value.id 
-  route_table_id = aws_route_table.private_rt[each.key].id 
+  for_each       = aws_subnet.private_subnets
+  subnet_id      = each.value.id
+  route_table_id = aws_route_table.private_rt[each.key].id
 }
 
 resource "aws_subnet" "public_subnets" {
@@ -71,12 +55,8 @@ resource "aws_subnet" "public_subnets" {
   availability_zone = each.value.az
 
   tags = {
-    Name = each.key
+    Name = "${var.project_name}-Public-${each.key}"
     type = "Public"
-  }
-
-  lifecycle {
-    prevent_destroy = true
   }
 }
 
@@ -85,10 +65,6 @@ resource "aws_internet_gateway" "igw" {
 
   tags = {
     Name = "${var.project_name}-IGW"
-  }
-
-  lifecycle {
-    prevent_destroy = true
   }
 }
 
@@ -135,6 +111,18 @@ resource "aws_network_acl_rule" "public_inbound_https" {
   to_port        = 443
 }
 
+resource "aws_network_acl_rule" "public_inbound_ephemeral" {
+  for_each       = aws_network_acl.public_nacl
+  network_acl_id = each.value.id
+  rule_number    = 120
+  rule_action    = "allow"
+  protocol       = "tcp"
+  egress         = false
+  cidr_block     = "0.0.0.0/0"
+  from_port      = 1024
+  to_port        = 65535
+}
+
 resource "aws_network_acl_rule" "public_inbound_icmp" {
   for_each       = aws_network_acl.public_nacl
   network_acl_id = each.value.id
@@ -164,33 +152,25 @@ resource "aws_network_acl_association" "public_nacl_assoc" {
 }
 
 resource "aws_eip" "nat_eip" {
-  domain = "vpc"
-  for_each = var.public_subnets
-  depends_on = [ aws_internet_gateway.igw ]
+  domain     = "vpc"
+  for_each   = var.public_subnets
+  depends_on = [aws_internet_gateway.igw]
 
   tags = {
     Name = "${var.project_name}-EIP-${each.value.az}"
-  }
-
-  lifecycle {
-    prevent_destroy = true
   }
 }
 
 resource "aws_nat_gateway" "nat_gw" {
   connectivity_type = "public"
-  depends_on = [ aws_internet_gateway.igw ]
+  depends_on        = [aws_internet_gateway.igw]
 
-  for_each = var.public_subnets
-  subnet_id = aws_subnet.public_subnets[each.key].id
+  for_each      = var.public_subnets
+  subnet_id     = aws_subnet.public_subnets[each.key].id
   allocation_id = aws_eip.nat_eip[each.key].id
 
   tags = {
     Name = "${var.project_name}-NAT-GW-${each.value.az}"
-  }
-
-  lifecycle {
-    prevent_destroy = true
   }
 }
 
