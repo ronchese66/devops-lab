@@ -174,3 +174,10 @@ resource "aws_nat_gateway" "nat_gw" {
   }
 }
 
+resource "aws_default_security_group" "default_sg_closed" {
+  vpc_id = aws_vpc.vpc.id
+
+  tags = {
+    Name = "${var.project_name}-CLOSED-Default-SG"
+  }
+}
