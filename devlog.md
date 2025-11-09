@@ -93,3 +93,16 @@ The namespace is created separately, as is the injection of Sealed Secret.*
 *Nov, 05*
 
 *Next step: forming the Elastic Kubernetes Service module and future cluster.*
+
+---
+### Add 2 new modules
+*Nov, 09*
+
+✓ Add EKS (Elastic Kubernetes Service) module.\
+✓ Add KMS (Key Management Service) module.\
+
+Small changes:
+- IAM Role for Control Plane
+- KMS Key for EKS etcd secrets encryption
+- KMS Alias
+- KMS Key Policy
