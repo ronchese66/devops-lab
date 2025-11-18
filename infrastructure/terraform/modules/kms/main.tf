@@ -1,5 +1,7 @@
 data "aws_caller_identity" "current" {}
 
+data "aws_region" "current_region" {}
+
 resource "aws_kms_key" "eks_secrets" {
   description             = "KMS key for EKS Kubernetes secrets encryption"
   enable_key_rotation     = var.enable_key_rotation
@@ -9,7 +11,7 @@ resource "aws_kms_key" "eks_secrets" {
     Name      = "${var.project_name}-EKS-Secrets-Key"
     ManagedBy = "Terraform"
   }
-  
+
   lifecycle {
     prevent_destroy = true
   }
@@ -28,9 +30,9 @@ resource "aws_kms_key_policy" "eks_secrets_policy" {
     Id      = "eks-secrets-key-policy"
     Statement = [
       {
-        Sid    = "Enable IAM User Permissions"
-        Effect = "Allow"
-        Action = "kms:*"
+        Sid      = "Enable IAM User Permissions"
+        Effect   = "Allow"
+        Action   = "kms:*"
         Resource = "*"
         Principal = {
           AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
@@ -51,6 +53,27 @@ resource "aws_kms_key_policy" "eks_secrets_policy" {
           "kms:DescribeKey"
         ]
         Resource = "*"
+      },
+      {
+        Sid      = "Allow CloudWatch Logs use the key"
+        Effect   = "Allow"
+        Resource = "*"
+        Principal = {
+          Service = "logs.amazonaws.com"
+        }
+        Action = [
+          "kms:Encrypt",
+          "kms:Decrypt",
+          "kms:ReEncrypt*",
+          "kms:GenerateDataKey*",
+          "kms:CreateGrant",
+          "kms:DescribeKey"
+        ]
+        Condition = {
+          ArnLike = {
+            "kms:EncryptionContext:aws:logs:arn" = "arn:aws:logs:${data.aws_region.current_region.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws/eks/*:log-stream:*"
+          }
+        }
       }
     ]
   })
