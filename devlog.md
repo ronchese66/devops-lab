@@ -57,7 +57,7 @@ The namespace is created separately, as is the injection of Sealed Secret.*
 *Oct, 29*
 
 ✓ helm/ and k8s/ moved to archived/ and no relevant\
-✓ From now, IaC is located in [infrastructure/](./archived)\
+✓ From now, IaC is located in [archived/](./archived)\
 ✓ Work resumed.
 
 *Returned to work with new knowledge.*\
@@ -99,10 +99,25 @@ The namespace is created separately, as is the injection of Sealed Secret.*
 *Nov, 09*
 
 ✓ Add EKS (Elastic Kubernetes Service) module.\
-✓ Add KMS (Key Management Service) module.\
+✓ Add KMS (Key Management Service) module.
 
 Small changes:
 - IAM Role for Control Plane
 - KMS Key for EKS etcd secrets encryption
 - KMS Alias
 - KMS Key Policy
+
+---
+*Nov, 18*
+
+*I've decided to move away from Kubernetes and EKS for this project.*\
+*Building a solid infrastructure with k8s in the cloud without enough experience was harder than I thought.*\
+*I know Kubernetes fairly well, but working with it in AWS is different. Realized I was spending too much time for complexity.*\
+*Don't regret a time though. I got deeper into k8s and learned how AWS services work. That experience will be useful in the future.*
+
+*Now I'm redesigning the architecture for ECS + Fargate.*\
+*Plans are not constant.*
+
+✓ Add VERSION files to all modules and remove Git Tags\
+✓ Move EKS module directory to [archived/](.archived/) \
+✓ A little refactoring\
