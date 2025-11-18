@@ -20,4 +20,7 @@ variable "endpoint_private_access" {
   default = true
 }
 
+variable "public_access_cidrs" {}
+
+variable "cluster_name" {}
 
