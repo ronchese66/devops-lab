@@ -120,4 +120,15 @@ Small changes:
 
 ✓ Add VERSION files to all modules and remove Git Tags\
 ✓ Move EKS module directory to [archived/](.archived/) \
-✓ A little refactoring\
+✓ A little refactoring
+
+---
+*Nov, 22*
+
+*I'm still working on the VPC module. Today I was added some new resources and outputs for them.*
+
+✓ NACL Inbound HTTP for ALB redirecting HTTP > HTTPS\
+✓ Flow Log and S3 Bucket for him\
+✓ VPC Endpoint Gateway for S3 
+
+*Next, I will move on to refactoring KMS (AWS Key Management Service).*
