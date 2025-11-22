@@ -29,3 +29,31 @@ output "nat_gateway_ids" {
 output "nat_eip" {
   value = { for k, v in aws_eip.nat_eip : k => v.public_ip }
 }
+
+output "s3_endpoint_id" {
+  value = aws_vpc_endpoint.s3_gateway.id 
+}
+
+output "s3_endpoint_prefix_list_id" {
+  value = aws_vpc_endpoint.s3_gateway.prefix_list_id
+}
+
+output "flow_logs_s3_bucket_id" {
+  value = aws_s3_bucket.flow_logs.id
+}
+
+output "flow_logs_s3_bucket_arn" {
+  value = aws_s3_bucket.flow_logs.arn
+}
+
+output "flow_logs_s3_bucket_name" {
+  value = aws_s3_bucket.flow_logs.bucket 
+}
+
+output "flow_logs_iam_role_arn" {
+  value = aws_iam_role.flow_logs_role.arn
+}
+
+output "flow_log_id" {
+  value = aws_flow_log.vpc_flow_logs.id
+}

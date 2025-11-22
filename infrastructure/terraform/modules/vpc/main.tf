@@ -111,6 +111,18 @@ resource "aws_network_acl_rule" "public_inbound_https" {
   to_port        = 443
 }
 
+resource "aws_network_acl_rule" "public_inbound_http" {
+  for_each = aws_network_acl.public_nacl
+  network_acl_id = each.value.id 
+  rule_number = 90
+  protocol = "tcp"
+  egress = false
+  rule_action = "allow"
+  cidr_block = "0.0.0.0/0"
+  from_port = 80
+  to_port = 80
+}
+
 resource "aws_network_acl_rule" "public_inbound_ephemeral" {
   for_each       = aws_network_acl.public_nacl
   network_acl_id = each.value.id
@@ -171,6 +183,16 @@ resource "aws_nat_gateway" "nat_gw" {
 
   tags = {
     Name = "${var.project_name}-NAT-GW-${each.value.az}"
+  }
+}
+
+resource "aws_vpc_endpoint" "s3_gateway" {
+  vpc_id = aws_vpc.vpc.id
+  service_name = "com.amazonaws.us-east-1.s3"
+  route_table_ids = [for rt in aws_route_table.private_rt : rt.id]
+
+  tags = {
+    Name = "${var.project_name}-S3-Endpoint-Gateway"
   }
 }
 

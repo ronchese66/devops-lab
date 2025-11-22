@@ -39,3 +39,8 @@ variable "private_subnets" {
     }
   }
 }
+
+variable "flow_log_format" {
+  type = string
+  default = "$${account-id} $${action} $${bytes} $${dstaddr} $${dstport} $${end} $${flow-direction} $${instance-id} $${interface-id} $${packets} $${pkt-dstaddr} $${pkt-srcaddr} $${protocol} $${srcaddr} $${srcaddr} $${srcport} $${start} $${tcp-flags} $${type} $${vpc-id}"
+}
