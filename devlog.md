@@ -132,3 +132,10 @@ Small changes:
 ✓ VPC Endpoint Gateway for S3 
 
 *Next, I will move on to refactoring KMS (AWS Key Management Service).*
+
+---
+*Nov, 23*
+
+*Today I'm rewrote the KMS module. Split module into **cloudwatch_logs_key.tf** and **secrets_manager_key.tf***
+
+*I will continue to build this module as other modules are created.*
