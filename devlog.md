@@ -139,3 +139,11 @@ Small changes:
 *Today I'm rewrote the KMS module. Split module into **cloudwatch_logs_key.tf** and **secrets_manager_key.tf***
 
 *I will continue to build this module as other modules are created.*
+
+---
+*Dec, 03*
+
+*Last week I wasn't idle, I redesigned architecture to move to EFS.*\
+*Sadly, the Immich app cannot save media content straight to S3 Bucket, so it needs shared storage, such as Elastic File Storage.*\
+*I did not reject S3 Bucket, but now it does the role of the storage for backups EFS.*\
+*Also, I created the Secrets Manager module. It's incomplete now, still working on it.*
