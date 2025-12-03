@@ -31,7 +31,7 @@ output "nat_eip" {
 }
 
 output "s3_endpoint_id" {
-  value = aws_vpc_endpoint.s3_gateway.id 
+  value = aws_vpc_endpoint.s3_gateway.id
 }
 
 output "s3_endpoint_prefix_list_id" {
@@ -47,7 +47,7 @@ output "flow_logs_s3_bucket_arn" {
 }
 
 output "flow_logs_s3_bucket_name" {
-  value = aws_s3_bucket.flow_logs.bucket 
+  value = aws_s3_bucket.flow_logs.bucket
 }
 
 output "flow_logs_iam_role_arn" {

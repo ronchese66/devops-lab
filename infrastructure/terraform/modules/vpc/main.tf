@@ -112,15 +112,15 @@ resource "aws_network_acl_rule" "public_inbound_https" {
 }
 
 resource "aws_network_acl_rule" "public_inbound_http" {
-  for_each = aws_network_acl.public_nacl
-  network_acl_id = each.value.id 
-  rule_number = 90
-  protocol = "tcp"
-  egress = false
-  rule_action = "allow"
-  cidr_block = "0.0.0.0/0"
-  from_port = 80
-  to_port = 80
+  for_each       = aws_network_acl.public_nacl
+  network_acl_id = each.value.id
+  rule_number    = 90
+  protocol       = "tcp"
+  egress         = false
+  rule_action    = "allow"
+  cidr_block     = "0.0.0.0/0"
+  from_port      = 80
+  to_port        = 80
 }
 
 resource "aws_network_acl_rule" "public_inbound_ephemeral" {
@@ -187,8 +187,8 @@ resource "aws_nat_gateway" "nat_gw" {
 }
 
 resource "aws_vpc_endpoint" "s3_gateway" {
-  vpc_id = aws_vpc.vpc.id
-  service_name = "com.amazonaws.us-east-1.s3"
+  vpc_id          = aws_vpc.vpc.id
+  service_name    = "com.amazonaws.us-east-1.s3"
   route_table_ids = [for rt in aws_route_table.private_rt : rt.id]
 
   tags = {
