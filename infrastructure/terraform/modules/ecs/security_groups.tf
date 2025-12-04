@@ -20,7 +20,7 @@ resource "aws_security_group_rule" "ecs_app_inbound_alb" {
 resource "aws_security_group_rule" "ecs_app_outbound_efs" {
   description = "Allow outbound traffic to EFS"
   security_group_id = aws_security_group.ecs_app_sg.id 
-  source_security_group_id = "LATER (efs mount target sg)"
+  source_security_group_id = var.efs_mount_target_sg_id
   type = "egress"
   protocol = "tcp"
   from_port = 2049

@@ -37,4 +37,10 @@ variable "secrets_manager_key_arn" {}
 
 variable "efs_file_system_id" {}
 
+variable "efs_file_system_arn" {}
+
 variable "efs_access_point_id" {}
+
+variable "efs_access_point_arn" {}
+
+variable "efs_mount_target_sg_id" {}

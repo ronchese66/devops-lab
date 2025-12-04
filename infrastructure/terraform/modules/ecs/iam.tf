@@ -86,10 +86,10 @@ resource "aws_iam_role_policy" "ecs_task_app_efs" {
           "elasticfilesystem:ClientWrite",
           "elasticfilesystem:ClientRootAccess"
         ]
-        Resource = "LATER (efs arn)"
+        Resource = var.efs_file_system_arn
         Condition = {
           StringEquals = {
-            "elasticfilesystem:AccessPointArn" = "LATER (efs access point arn)"
+            "elasticfilesystem:AccessPointArn" = var.efs_access_point_arn
           }
         }
       }
