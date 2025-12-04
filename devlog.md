@@ -147,3 +147,12 @@ Small changes:
 *Sadly, the Immich app cannot save media content straight to S3 Bucket, so it needs shared storage, such as Elastic File Storage.*\
 *I did not reject S3 Bucket, but now it does the role of the storage for backups EFS.*\
 *Also, I created the Secrets Manager module. It's incomplete now, still working on it.*
+
+---
+*Dec, 04*
+
+*Starting today I've been working on EFS module. The basic version is already ready!*
+
+✓ Add EFS File System, Access Point, Mount Targets\
+✓ Add KMS key for encryption\
+✓ Variables, outputs

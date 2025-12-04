@@ -15,6 +15,14 @@ variable "enable_key_rotation" {
   description = "Enable key rotation every month"
 }
 
-variable "deletion_window_in_days" {
+variable "sm_deletion_window_in_days" {
+  type = number
+}
+
+variable "cloudwatch_deletion_window_in_days" {
+  type = number
+}
+
+variable "efs_deletion_window_in_days" {
   type = number
 }
