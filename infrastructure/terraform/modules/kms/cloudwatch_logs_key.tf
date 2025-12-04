@@ -1,6 +1,6 @@
 resource "aws_kms_key" "cloudwatch_logs_key" {
   enable_key_rotation     = var.enable_key_rotation
-  deletion_window_in_days = var.deletion_window_in_days
+  deletion_window_in_days = var.cloudwatch_deletion_window_in_days
 
   tags = {
     Name      = "${var.project_name}-CloudWatch-Logs-Key"

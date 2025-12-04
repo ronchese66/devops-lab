@@ -3,7 +3,7 @@ data "aws_region" "current_region" {}
 
 resource "aws_kms_key" "secrets_manager_key" {
   enable_key_rotation     = var.enable_key_rotation
-  deletion_window_in_days = var.deletion_window_in_days
+  deletion_window_in_days = var.sm_deletion_window_in_days
 
   tags = {
     Name      = "${var.project_name}-Secrets-Manager-Key"

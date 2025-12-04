@@ -21,3 +21,7 @@ output "cloudwatch_logs_key_arn" {
 output "cloudwatch_logs_key_alias" {
   value = aws_kms_alias.cloudwatch_logs_key_alias.name
 }
+
+output "efs_key_arn" {
+  value = aws_kms_key.efs_key.arn
+}
