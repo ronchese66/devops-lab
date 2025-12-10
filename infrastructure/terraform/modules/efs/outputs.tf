@@ -2,6 +2,10 @@ output "efs_mount_target_sg_id" {
   value = aws_security_group.mount_targets.id
 }
 
+output "efs_mount_target_sg_arn" {
+  value = aws_security_group.mount_targets.arn
+}
+
 output "efs_file_system_id" {
   value = aws_efs_file_system.immich_storage.id
 }
