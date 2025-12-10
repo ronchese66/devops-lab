@@ -4,13 +4,13 @@ resource "aws_iam_role" "ecs_task_execution" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
-        {
-            Effect = "Allow"
-            Principal = {
-                Service = "ecs-tasks.amazonaws.com"
-            }
-            Action = "sts:AssumeRole"
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "ecs-tasks.amazonaws.com"
         }
+        Action = "sts:AssumeRole"
+      }
     ]
   })
 
@@ -21,33 +21,33 @@ resource "aws_iam_role" "ecs_task_execution" {
 
 resource "aws_iam_role_policy" "ecs_task_execution_secrets" {
   name = "${var.project_name}-ecs-execution-secrets-policy"
-  role = aws_iam_role.ecs_task_execution.id 
+  role = aws_iam_role.ecs_task_execution.id
 
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
-        {
-            Effect = "Allow"
-            Action = [
-                "secretsmanager:GetSecretValue"
-            ]
-            Resource = [
-                var.db_password_secret_arn
-            ]
-        },
-        {
-            Effect = "Allow"
-            Action = [
-                "kms:Decrypt"
-            ]
-            Resource = var.secrets_manager_key_arn
-        }
+      {
+        Effect = "Allow"
+        Action = [
+          "secretsmanager:GetSecretValue"
+        ]
+        Resource = [
+          var.db_password_secret_arn
+        ]
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "kms:Decrypt"
+        ]
+        Resource = var.secrets_manager_key_arn
+      }
     ]
   })
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_secrets_attach" {
-  role = aws_iam_role.ecs_task_execution.name 
+  role       = aws_iam_role.ecs_task_execution.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
@@ -57,13 +57,13 @@ resource "aws_iam_role" "ecs_task_app" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
-        {
-            Effect = "Allow"
-            Principal = {
-                Service = "ecs-tasks.amazonaws.com"
-            }
-            Action = "sts:AssumeRole"
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "ecs-tasks.amazonaws.com"
         }
+        Action = "sts:AssumeRole"
+      }
     ]
   })
 
@@ -74,7 +74,7 @@ resource "aws_iam_role" "ecs_task_app" {
 
 resource "aws_iam_role_policy" "ecs_task_app_efs" {
   name = "${var.project_name}-ecs-task-app-efs-policy"
-  role = aws_iam_role.ecs_task_app.id 
+  role = aws_iam_role.ecs_task_app.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -104,16 +104,16 @@ resource "aws_iam_role_policy" "ecs_task_app_exec" {
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
-        {
-            Effect = "Allow"
-            Action = [
-                "ssmmessages:CreateControlChannel",
-                "ssmmessages:CreateDataChannel",
-                "ssmmessages:OpenControlChannel",
-                "ssmmessages:OpenDataChannel"
-            ]
-            Resource = "*"
-        }
+      {
+        Effect = "Allow"
+        Action = [
+          "ssmmessages:CreateControlChannel",
+          "ssmmessages:CreateDataChannel",
+          "ssmmessages:OpenControlChannel",
+          "ssmmessages:OpenDataChannel"
+        ]
+        Resource = "*"
+      }
     ]
   })
 }
@@ -124,13 +124,13 @@ resource "aws_iam_role" "ecs_task_ml" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
-        {
-            Effect = "Allow"
-            Principal = {
-                Service = "ecs-tasks.amazonaws.com"
-            }
-            Action = "sts:AssumeRole"
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "ecs-tasks.amazonaws.com"
         }
+        Action = "sts:AssumeRole"
+      }
     ]
   })
 
@@ -141,21 +141,21 @@ resource "aws_iam_role" "ecs_task_ml" {
 
 resource "aws_iam_role_policy" "ecs_task_ml_exec" {
   name = "${var.project_name}-ecs-task-ml-exec-policy"
-  role = aws_iam_role.ecs_task_ml.id 
+  role = aws_iam_role.ecs_task_ml.id
 
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
-        {
-            Effect = "Allow"
-            Action = [
-                "ssmmessages:CreateControlChannel",
-                "ssmmessages:CreateDataChannel",
-                "ssmmessages:OpenControlChannel",
-                "ssmmessages:OpenDataChannel"
-            ]
-            Resource = "*"
-        }
+      {
+        Effect = "Allow"
+        Action = [
+          "ssmmessages:CreateControlChannel",
+          "ssmmessages:CreateDataChannel",
+          "ssmmessages:OpenControlChannel",
+          "ssmmessages:OpenDataChannel"
+        ]
+        Resource = "*"
+      }
     ]
   })
 }

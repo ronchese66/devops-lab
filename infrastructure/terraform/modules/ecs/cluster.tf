@@ -2,7 +2,7 @@ resource "aws_ecs_cluster" "immich_cluster" {
   name = "${var.project_name}-cluster"
 
   setting {
-    name = "containerInsights"
+    name  = "containerInsights"
     value = "enabled"
   }
 

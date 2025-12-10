@@ -15,7 +15,7 @@ output "private_subnet_ids" {
 }
 
 output "private_subnet_arns" {
-  value = [for s in aws.aws_subnet.private_subnets : s.arn]
+  value = [for s in aws_subnet.private_subnets : s.arn]
 }
 
 output "public_route_table_id" {

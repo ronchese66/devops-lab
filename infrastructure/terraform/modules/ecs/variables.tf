@@ -1,7 +1,7 @@
 variable "project_name" {}
 
 variable "immich_version" {
-  type = string
+  type    = string
   default = "release"
 }
 
@@ -25,8 +25,8 @@ variable "app_desired_count" {
 
 variable "ml_desired_count" {
   description = "Desired number of ML Tasks"
-  type = number
-  default = 2
+  type        = number
+  default     = 2
 }
 
 variable "cloudwatch_logs_key_arn" {}

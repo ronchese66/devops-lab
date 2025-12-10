@@ -3,7 +3,7 @@ resource "aws_datasync_location_efs" "datasync_source" {
 
   ec2_config {
     security_group_arns = [var.efs_mount_target_sg_arn]
-    subnet_arn = var.private_subnet_arns[0]
+    subnet_arn          = var.private_subnet_arns[0]
   }
 
   tags = {
@@ -12,8 +12,8 @@ resource "aws_datasync_location_efs" "datasync_source" {
 }
 
 resource "aws_datasync_location_s3" "datasync_destination" {
-  s3_bucket_arn = aws_s3_bucket.backup_bucket.arn
-  subdirectory = "/"
+  s3_bucket_arn    = aws_s3_bucket.backup_bucket.arn
+  subdirectory     = "/"
   s3_storage_class = "INTELLIGENT_TIERING"
 
   s3_config {
@@ -26,29 +26,29 @@ resource "aws_datasync_location_s3" "datasync_destination" {
 }
 
 resource "aws_datasync_task" "datasync_backup_task" {
-  name = "${var.project_name}-efs-backup-task"
-  source_location_arn = aws_datasync_location_efs.datasync_source.arn
+  name                     = "${var.project_name}-efs-backup-task"
+  source_location_arn      = aws_datasync_location_efs.datasync_source.arn
   destination_location_arn = aws_datasync_location_s3.datasync_destination.arn
 
   options {
-    bytes_per_second = -1
+    bytes_per_second       = -1
     preserve_deleted_files = "REMOVE"
-    preserve_devices = "NONE"
-    posix_permissions = "PRESERVE"
-    uid = "PRESERVE"
-    gid = "PRESERVE"
-    mtime = "PRESERVE"
-    atime = "BEST_EFFORT"
-    verify_mode = "ONLY_FILES_TRANSFERRED"
-    overwrite_mode = "ALWAYS"
-    transfer_mode = "CHANGED"
-    task_queueing = "ENABLED"
-    log_level = "TRANSFER"
+    preserve_devices       = "NONE"
+    posix_permissions      = "PRESERVE"
+    uid                    = "INT_VALUE"
+    gid                    = "INT_VALUE"
+    mtime                  = "PRESERVE"
+    atime                  = "BEST_EFFORT"
+    verify_mode            = "ONLY_FILES_TRANSFERRED"
+    overwrite_mode         = "ALWAYS"
+    transfer_mode          = "CHANGED"
+    task_queueing          = "ENABLED"
+    log_level              = "TRANSFER"
   }
 
   excludes {
     filter_type = "SIMPLE_PATTERN"
-    value = "/upload/.tmp/*"
+    value       = "/upload/.tmp/*"
   }
 
   schedule {

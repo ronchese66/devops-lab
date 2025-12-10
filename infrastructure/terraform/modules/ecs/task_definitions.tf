@@ -3,13 +3,13 @@ data "aws_region" "current" {}
 resource "aws_ecs_task_definition" "app" {
   execution_role_arn = aws_iam_role.ecs_task_execution.arn
   task_role_arn      = aws_iam_role.ecs_task_app.arn
-  
+
   family                   = "${var.project_name}-app"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
 
-  cpu                      = "2048"
-  memory                   = "4096"
+  cpu    = "2048"
+  memory = "4096"
 
   volume {
     name = "immich-uploads"
@@ -94,25 +94,25 @@ resource "aws_ecs_task_definition" "app" {
 
 resource "aws_ecs_task_definition" "ml" {
   execution_role_arn = aws_iam_role.ecs_task_execution.arn
-  task_role_arn = aws_iam_role.ecs_task_ml.arn
+  task_role_arn      = aws_iam_role.ecs_task_ml.arn
 
-  family = "${var.project_name}-ml"
+  family                   = "${var.project_name}-ml"
   requires_compatibilities = ["FARGATE"]
-  network_mode = "awsvpc"
+  network_mode             = "awsvpc"
 
-  cpu = "1024"
+  cpu    = "1024"
   memory = "4096"
 
   container_definitions = jsonencode([
     {
-      name = "immich-ml"
-      image = "ghcr.io/immich-app/immich-machine-learning:${var.immich_version}"
+      name      = "immich-ml"
+      image     = "ghcr.io/immich-app/immich-machine-learning:${var.immich_version}"
       essential = true
 
       portMappings = [
         {
           containerPort = 3003
-          protocol = "tcp"
+          protocol      = "tcp"
         }
       ]
 
@@ -125,17 +125,17 @@ resource "aws_ecs_task_definition" "ml" {
           "CMD-SHELL",
           "timeout 5 bash -c '</dev/tcp/localhost/3003' || exit 1"
         ]
-        interval = 30
-        timeout = 10
-        retries = 3
+        interval    = 30
+        timeout     = 10
+        retries     = 3
         startPeriod = 120
       }
 
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          "awslogs-group" = aws_cloudwatch_log_group.ml_log_group.name
-          "awslogs-region" = data.aws_region.current.name
+          "awslogs-group"         = aws_cloudwatch_log_group.ml_log_group.name
+          "awslogs-region"        = data.aws_region.current.name
           "awslogs-stream-prefix" = "ecs"
         }
       }

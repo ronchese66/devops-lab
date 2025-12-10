@@ -28,6 +28,6 @@ variable "efs_deletion_window_in_days" {
 }
 
 variable "backup_schedule" {
-  type = string
+  type        = string
   description = "Cron for backup schedule"
 }

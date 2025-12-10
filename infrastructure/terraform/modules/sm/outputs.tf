@@ -7,6 +7,6 @@ output "db_password_secret_name" {
 }
 
 output "db_password_value" {
-  value = random_password.db_password_gen.result
+  value     = random_password.db_password_gen.result
   sensitive = true
 }
