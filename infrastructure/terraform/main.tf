@@ -41,3 +41,12 @@ module "efs" {
   vpc_id = module.vpc.vpc_id
   ecs_app_sg_id = module.ecs.ecs_app_sg_id
 }
+
+module "datasync" {
+  source = "./modules/datasync"
+  project_name = var.project_name
+  efs_file_system_arn = module.efs.efs_file_system_arn
+  efs_mount_target_sg_arn = module.efs.efs_mount_target_sg_arn
+  private_subnet_arns = module.vpc.private_subnet_arns
+  backup_schedule = var.backup_schedule
+}

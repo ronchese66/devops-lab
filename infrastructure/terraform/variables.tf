@@ -26,3 +26,8 @@ variable "cloudwatch_deletion_window_in_days" {
 variable "efs_deletion_window_in_days" {
   type = number
 }
+
+variable "backup_schedule" {
+  type = string
+  description = "Cron for backup schedule"
+}

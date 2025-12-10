@@ -156,3 +156,17 @@ Small changes:
 ✓ Add EFS File System, Access Point, Mount Targets\
 ✓ Add KMS key for encryption\
 ✓ Variables, outputs
+
+---
+*Dec, 10*
+
+*I refused the AWS Backup service because it does nt comply with my architecture and cost too expensive. The backup storage (S3) must be mirrored to the primary storage (EFS) and uptated every day.*
+
+*Well, I added*
+
+✓ DataSync module\
+✓ S3 Bucket for backup storage, policies, encryption\
+✓ IAM roles and policies\
+✓ DataSync task, source & destination resources
+
+*I will add restore tasks and SNS later*
