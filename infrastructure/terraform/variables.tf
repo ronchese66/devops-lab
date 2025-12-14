@@ -31,3 +31,13 @@ variable "backup_schedule" {
   type        = string
   description = "Cron for backup schedule"
 }
+
+variable "notification_email" {
+  type        = string
+  description = "Your EMAIL for SNS Alerts"
+}
+
+variable "dns_ttl" {
+  type = number
+  description = "TTL (Time To Live) for DNS records in seconds"
+}

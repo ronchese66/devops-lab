@@ -49,4 +49,12 @@ module "datasync" {
   efs_mount_target_sg_arn = module.efs.efs_mount_target_sg_arn
   private_subnet_arns     = module.vpc.private_subnet_arns
   backup_schedule         = var.backup_schedule
+  notification_email      = var.notification_email
+}
+
+module "route53-internal" {
+  source = "./modules/route53-internal"
+  project_name = var.project_name
+  vpc_id = module.vpc.vpc_id
+  dns_ttl = var.dns_ttl
 }

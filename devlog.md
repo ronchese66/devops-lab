@@ -170,3 +170,10 @@ Small changes:
 ✓ DataSync task, source & destination resources
 
 *I will add restore tasks and SNS later*
+
+---
+*Dec, 14*
+
+*Yesterday, I added **Restore Task** for the DataSync module. It's used in case of total destruction to copy backup data from S3 to a new primary EFS.*
+
+*Today, I created the **Route53 Internal** module. Right now, it is full of placeholders, as not all modules are created yet. I added a record for monitoring for future use, but it's not being used yet. I'm still in process of determining the exact monitoring stack.*
