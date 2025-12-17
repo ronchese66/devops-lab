@@ -10,6 +10,7 @@ module "kms" {
   sm_deletion_window_in_days         = var.sm_deletion_window_in_days
   cloudwatch_deletion_window_in_days = var.cloudwatch_deletion_window_in_days
   efs_deletion_window_in_days        = var.efs_deletion_window_in_days
+  rds_deletion_window_in_days = var.rds_deletion_window_in_days
 }
 
 module "sm" {
@@ -31,6 +32,22 @@ module "ecs" {
   efs_file_system_id      = module.efs.efs_file_system_id
   efs_file_system_arn     = module.efs.efs_file_system_arn
   efs_mount_target_sg_id  = module.efs.efs_mount_target_sg_id
+  rds_sg_id = module.rds.rds_sg_id
+}
+
+module "rds" {
+  source = "./modules/rds"
+  project_name = var.project_name
+  vpc_id = module.vpc.vpc_id
+  ecs_app_sg_id = module.ecs.ecs_app_sg_id
+  vpc_cidr = module.vpc.vpc_cidr
+  private_subnet_ids = module.vpc.private_subnet_ids
+  db_password_value = module.sm.db_password_value
+  rds_key_arn = module.kms.rds_key_arn
+  rds_backup_retention_period = var.rds_backup_retention_period
+  rds_preferred_backup_window = var.rds_preferred_backup_window
+  rds_preferred_maintenance_window = var.rds_preferred_maintenance_window
+  cloudwatch_logs_key_arn = module.kms.cloudwatch_logs_key_arn
 }
 
 module "efs" {
@@ -57,4 +74,5 @@ module "route53-internal" {
   project_name = var.project_name
   vpc_id = module.vpc.vpc_id
   dns_ttl = var.dns_ttl
+  rds_cluster_endpoint = module.rds.rds_cluster_endpoint
 }

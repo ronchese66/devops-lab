@@ -27,6 +27,10 @@ variable "efs_deletion_window_in_days" {
   type = number
 }
 
+variable "rds_deletion_window_in_days" {
+  type = number
+}
+
 variable "backup_schedule" {
   type        = string
   description = "Cron for backup schedule"
@@ -40,4 +44,16 @@ variable "notification_email" {
 variable "dns_ttl" {
   type = number
   description = "TTL (Time To Live) for DNS records in seconds"
+}
+
+variable "rds_backup_retention_period" {
+  type = number
+}
+
+variable "rds_preferred_backup_window" {
+  type = string
+}
+
+variable "rds_preferred_maintenance_window" {
+  type = string
 }
