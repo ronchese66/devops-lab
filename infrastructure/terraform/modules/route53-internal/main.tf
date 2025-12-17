@@ -15,7 +15,7 @@ resource "aws_route53_record" "route53_database_record" {
   name    = "database"
   type    = "CNAME"
   ttl     = var.dns_ttl
-  records = ["LATER"] # RDS cluster endp
+  records = [var.rds_cluster_endpoint]
 }
 
 resource "aws_route53_record" "route53_redis_record" {
