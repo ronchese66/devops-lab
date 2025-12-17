@@ -30,7 +30,7 @@ resource "aws_security_group_rule" "ecs_app_outbound_efs" {
 resource "aws_security_group_rule" "ecs_app_outbound_rds" {
   description              = "Allow outbound traffic to RDS"
   security_group_id        = aws_security_group.ecs_app_sg.id
-  source_security_group_id = "LATER"
+  source_security_group_id = var.rds_sg_id
   type                     = "egress"
   protocol                 = "tcp"
   from_port                = 5432
