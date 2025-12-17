@@ -25,3 +25,11 @@ output "cloudwatch_logs_key_alias" {
 output "efs_key_arn" {
   value = aws_kms_key.efs_key.arn
 }
+
+output "rds_key_arn" {
+  value = aws_kms_key.rds_key.arn
+}
+
+output "rds_key_id" {
+  value = aws_kms_key.rds_key.key_id
+}
