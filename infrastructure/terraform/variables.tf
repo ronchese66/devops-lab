@@ -57,3 +57,7 @@ variable "rds_preferred_backup_window" {
 variable "rds_preferred_maintenance_window" {
   type = string
 }
+
+variable "redis_maintenance_window" {
+  type = string
+}

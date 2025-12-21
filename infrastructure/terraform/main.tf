@@ -33,6 +33,7 @@ module "ecs" {
   efs_file_system_arn     = module.efs.efs_file_system_arn
   efs_mount_target_sg_id  = module.efs.efs_mount_target_sg_id
   rds_sg_id = module.rds.rds_sg_id
+  redis_sg = module.elasticache.redis_sg_id
 }
 
 module "rds" {
@@ -59,6 +60,16 @@ module "efs" {
   ecs_app_sg_id      = module.ecs.ecs_app_sg_id
 }
 
+module "elasticache" {
+  source = "./modules/elasticache"
+  project_name = var.project_name
+  vpc_id = module.vpc.vpc_id
+  ecs_app_sg_id = module.ecs.ecs_app_sg_id
+  private_subnet_ids = module.vpc.private_subnet_ids
+  redis_maintenance_window = var.redis_maintenance_window
+  cloudwatch_logs_key_arn = module.kms.cloudwatch_logs_key_arn
+}
+
 module "datasync" {
   source                  = "./modules/datasync"
   project_name            = var.project_name
@@ -75,4 +86,6 @@ module "route53-internal" {
   vpc_id = module.vpc.vpc_id
   dns_ttl = var.dns_ttl
   rds_cluster_endpoint = module.rds.rds_cluster_endpoint
+  redis_prim_endpoint = module.elasticache.redis_prim_endpoint
 }
+

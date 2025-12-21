@@ -12,3 +12,4 @@ dns_ttl = 300
 rds_backup_retention_period = 7
 rds_preferred_backup_window = "01:00-02:00"
 rds_preferred_maintenance_window = "mon:02:00-mon:03:00"
+redis_maintenance_window = "mon:02:00-mon:03:00"

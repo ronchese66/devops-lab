@@ -184,3 +184,14 @@ Small changes:
 *Today I added RDS module I've been working on for last week. I also added the KMS Key for it.*
 
 *Since today, I'll start working on ElastiCache Redis module.*
+
+---
+*Dec, 21*
+
+*Today I worked on the **ElastiCache Redis** module.*\
+*I created a **replication group, subnet group and SG**, and closed the placeholders with Redis SG in the ECS module and Route53 module.*
+
+*My architecture contains **1 primary node** and **1 replica**.*\
+*Only the **engine logs** type is enabled for logs because at the moment I dont see the need for more detailed logs.*
+
+***Important:** the Immich architecture does not support TLS and password for Redis, so I had to reject them.*
