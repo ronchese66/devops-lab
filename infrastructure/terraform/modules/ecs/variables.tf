@@ -46,3 +46,5 @@ variable "efs_access_point_arn" {}
 variable "efs_mount_target_sg_id" {}
 
 variable "rds_sg_id" {}
+
+variable "redis_sg" {}
