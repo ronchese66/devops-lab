@@ -23,7 +23,7 @@ resource "aws_route53_record" "route53_redis_record" {
   name    = "redis"
   type    = "CNAME"
   ttl     = var.dns_ttl
-  records = ["LATER"] # Redis prim endp
+  records = [var.redis_prim_endpoint] 
 }
 
 resource "aws_route53_record" "route53_monitoring_record" {

@@ -7,3 +7,5 @@ variable "dns_ttl" {
 }
 
 variable "rds_cluster_endpoint" {}
+
+variable "redis_prim_endpoint" {}
