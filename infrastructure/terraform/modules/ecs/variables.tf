@@ -48,3 +48,7 @@ variable "efs_mount_target_sg_id" {}
 variable "rds_sg_id" {}
 
 variable "redis_sg" {}
+
+variable "app_target_group_arn" {}
+
+variable "alb_sg_id" {}

@@ -44,7 +44,7 @@ resource "aws_ecs_service" "app_service" {
   }
 
   load_balancer {
-    target_group_arn = "LATER (app tg arn)"
+    target_group_arn = var.app_target_group_arn
     container_name   = "immich-app"
     container_port   = 2283
   }
