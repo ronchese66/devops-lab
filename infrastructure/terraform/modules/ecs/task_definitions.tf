@@ -50,12 +50,13 @@ resource "aws_ecs_task_definition" "app" {
 
       environment = [
         { name = "DB_HOSTNAME", value = "database.${var.project_name}.internal" },
-        { name = "DB_USERNAME", value = "postgres" },
+        { name = "DB_USERNAME", value = "immich" },
         { name = "DB_DATABASE_NAME", value = "immich" },
         { name = "REDIS_HOSTNAME", value = "redis.${var.project_name}.internal" },
         { name = "UPLOAD_LOCATION", value = "/usr/src/app/upload" },
         { name = "IMMICH_MACHINE_LEARNING_URL", value = "http://ml.${var.project_name}.local:3003" },
-        { name = "TZ", value = "Europe/Kyiv" }
+        { name = "TZ", value = "Europe/Kyiv" },
+        { name = "PGSSLMODE", value = "require" }
       ]
 
       secrets = [
