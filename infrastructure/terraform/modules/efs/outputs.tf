@@ -21,3 +21,7 @@ output "efs_access_point_id" {
 output "efs_access_point_arn" {
   value = aws_efs_access_point.immich_uploads.arn
 }
+
+output "efs_mount_targets_ready" {
+  value = [for mt in aws_efs_mount_target.immich_storage_mt : mt.id]
+}
