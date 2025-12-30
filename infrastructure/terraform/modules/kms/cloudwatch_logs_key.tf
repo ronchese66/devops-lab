@@ -25,7 +25,7 @@ resource "aws_kms_key_policy" "cloudwatch_logs_key_policy" {
     Id      = "cloudwatch-logs-key-policy"
     Statement = [
       {
-        Sid    = "Enable IAM User permissions"
+        Sid    = "EnableIAMUserPermissions"
         Effect = "Allow"
         Principal = {
           AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
@@ -34,7 +34,7 @@ resource "aws_kms_key_policy" "cloudwatch_logs_key_policy" {
         Resource = "*"
       },
       {
-        Sid    = "Allow CloudWatch Logs use the key"
+        Sid    = "AllowCloudWatchLogsUseTheKey"
         Effect = "Allow"
         Principal = {
           Service = "logs.amazonaws.com"
@@ -55,7 +55,7 @@ resource "aws_kms_key_policy" "cloudwatch_logs_key_policy" {
         }
       },
       {
-        Sid    = "Allow SSM use the key"
+        Sid    = "AllowSSMUseTheKey"
         Effect = "Allow"
         Principal = {
           Service = "ssm.amazonaws.com"

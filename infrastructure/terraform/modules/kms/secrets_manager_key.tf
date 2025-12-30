@@ -28,7 +28,7 @@ resource "aws_kms_key_policy" "secrets_manager_key_policy" {
     Id      = "secrets-manager-key-policy"
     Statement = [
       {
-        Sid    = "Enable IAM User permissions"
+        Sid    = "EnableIAMUserPermissions"
         Effect = "Allow"
         Principal = {
           AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
@@ -37,7 +37,7 @@ resource "aws_kms_key_policy" "secrets_manager_key_policy" {
         Resource = "*"
       },
       {
-        Sid    = "Allow Secrets Manager use the key"
+        Sid    = "AllowSecretsManagerUseTheKey"
         Effect = "Allow"
         Principal = {
           Service = "secretsmanager.amazonaws.com"
@@ -55,7 +55,7 @@ resource "aws_kms_key_policy" "secrets_manager_key_policy" {
         }
       },
       {
-        Sid    = "Allow Secrets Manager creates grants"
+        Sid    = "AllowSecretsManagerCreatesGrants"
         Effect = "Allow"
         Principal = {
           Service = "secretsmanager.amazonaws.com"

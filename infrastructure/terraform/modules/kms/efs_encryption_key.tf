@@ -23,7 +23,7 @@ resource "aws_kms_key_policy" "efs_key_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid    = "Enable IAM user permissions"
+        Sid    = "EnableIAMUserPermissions"
         Effect = "Allow"
         Principal = {
           AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
@@ -32,7 +32,7 @@ resource "aws_kms_key_policy" "efs_key_policy" {
         Resource = "*"
       },
       {
-        Sid    = "Allow EFS to use key"
+        Sid    = "AllowEFSToUseKey"
         Effect = "Allow"
         Principal = {
           Service = "elasticfilesystem.amazonaws.com"
