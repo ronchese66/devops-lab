@@ -26,13 +26,13 @@ resource "aws_route53_record" "route53_redis_record" {
   records = [var.redis_prim_endpoint] 
 }
 
-resource "aws_route53_record" "route53_monitoring_record" {
-  zone_id = aws_route53_zone.route53_private_zone.zone_id
-  name    = "monitoring"
-  type    = "CNAME"
-  ttl     = var.dns_ttl
-  records = ["LATER"]
-}
+# resource "aws_route53_record" "route53_monitoring_record" {
+#   zone_id = aws_route53_zone.route53_private_zone.zone_id
+#   name    = "monitoring"
+#   type    = "CNAME"
+#   ttl     = var.dns_ttl
+#   records = ["LATER"]
+# }
 
 
 
