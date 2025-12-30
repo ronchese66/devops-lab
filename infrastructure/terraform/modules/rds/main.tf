@@ -31,8 +31,8 @@ resource "aws_rds_cluster" "rds_aurora_cluster" {
 
   enabled_cloudwatch_logs_exports = ["postgresql"]
 
-  deletion_protection = true
-  apply_immediately = false
+  deletion_protection = false
+  apply_immediately = true
 
   serverlessv2_scaling_configuration {
     min_capacity = var.min_capacity

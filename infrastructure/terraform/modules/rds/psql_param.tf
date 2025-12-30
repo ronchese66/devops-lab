@@ -1,6 +1,6 @@
 resource "aws_rds_cluster_parameter_group" "rds_aurora_psql_params" {
   name = "${var.project_name}-aurora-psql-parameters"
-  family = "aurora-postgresql16"
+  family = "aurora-postgresql17"
 
   parameter {
     name = "log_statement"
@@ -20,6 +20,11 @@ resource "aws_rds_cluster_parameter_group" "rds_aurora_psql_params" {
   parameter {
     name = "random_page_cost"
     value = "1.1"
+  }
+
+  parameter {
+    name = "rds.force_ssl"
+    value = "0"
   }
 
   tags = {
