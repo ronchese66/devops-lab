@@ -195,3 +195,40 @@ Small changes:
 *Only the **engine logs** type is enabled for logs because at the moment I dont see the need for more detailed logs.*
 
 ***Important:** the Immich architecture does not support TLS and password for Redis, so I had to reject them.*
+
+---
+*Dec, 28-30*
+
+*Last week was very stressful, with a lot of work to be done. But in order:*
+
+*1. The domain **immich.ronchese.pp.ua** was registered.*\
+*2. Multi-Zone Application Load Balancer was configured.*\
+*3. TLS/SSL Certificates were configured.*\
+*4. Route53 Public Hosted Zone and a few records were added.*\
+*After that, preparations began for the first full deploy.*
+
+*I was surprised that deploy went well, for the most part. There were the following issues:*
+
+*1. Missing CloudWatch Log Group for DataSync backup logs. It just so happened that I missed it. I created a quick fix.*\
+*2. Supported Redis version and PostgreSQL parameters were fixed.*\
+*3. Errors in the **Sid** IAM Policies fields in various modules were corrected.*\
+*4. The Health Check block type for ECS Services was corrected.*
+
+*There were two main issues, namely:*
+
+*1. RDS Aurora enables SSL encryption by default. While analysing errors in logs and experimenting with setting the **rds.force_ssl** parameter, it became clear that Immich App does not support SSL for database. Accordingly, I had to **set the parameter to 0, disabling SSL***\
+*2. The second problem was the incorrect transmission of the generated password for the database. The password was transmitted in JSON format with two field, username and password, instead of one.*\
+*There Were also several minor fixes.*
+
+*As a result, the infrastructure has been successfully deployed in the AWS Cloud, and appllication is available.*
+
+*What`s next?*
+
+*Work is far from complete.*\
+*The first things to do is to refactor all the existing code, remove temporary placeholders, and replace deprecated resources and arguments.*\
+*Next, I plan to create a specific monitoring stack.*
+
+*There are many other plans, but I don`t want to talk about right now. More to come!*
+
+*P.S. I will update project description soon and add the architectural diagram, which needs to be tidied up. I will get to it...in the next year.*
+
