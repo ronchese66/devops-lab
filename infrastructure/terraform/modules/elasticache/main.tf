@@ -35,7 +35,7 @@ resource "aws_elasticache_replication_group" "redis_replic_group" {
   security_group_ids = [aws_security_group.redis_sg.id]
 
   engine = "redis"
-  engine_version = "7.2"
+  engine_version = "7.1"
   node_type = "cache.t4g.small"
   num_cache_clusters = 2
   port = 6379
