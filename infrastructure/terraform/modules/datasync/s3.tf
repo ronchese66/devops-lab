@@ -33,7 +33,7 @@ resource "aws_s3_bucket_policy" "backup_bucket_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid       = "Don't allow insecure transport"
+        Sid       = "DontAllowInsecureTransport"
         Effect    = "Deny"
         Principal = "*"
         Action    = "s3:*"
@@ -48,7 +48,7 @@ resource "aws_s3_bucket_policy" "backup_bucket_policy" {
         }
       },
       {
-        Sid    = "Allow DataSync access"
+        Sid    = "AllowDataSyncAccess"
         Effect = "Allow"
         Principal = {
           AWS = aws_iam_role.datasync_role.arn

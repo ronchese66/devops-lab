@@ -11,3 +11,7 @@ variable "backup_schedule" {}
 variable "notification_email" {
   type = string
 }
+
+variable "efs_mount_targets_ready" {}
+
+variable "cloudwatch_logs_key_arn" {}

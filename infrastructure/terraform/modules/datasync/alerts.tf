@@ -19,7 +19,7 @@ resource "aws_sns_topic_policy" "backup_notifications_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid    = "Allow Event Bridge to publish"
+        Sid    = "AllowEventBridgeToPublish"
         Effect = "Allow"
         Principal = {
           Service = "events.amazonaws.com"
@@ -135,4 +135,10 @@ resource "aws_cloudwatch_event_target" "datasync_backup_failed_sns" {
     }
     input_template = "\"ALERT: DataSync Backup FAILED! Task: <taskArn>, Execution: <executionArn>, Error: <errorCode> - <errorDetail>\""
   }
+}
+
+resource "aws_cloudwatch_log_group" "datasync_logs" {
+  name = "/aws/datasync/${var.project_name}/efs-backup"
+  retention_in_days = 7
+  kms_key_id = var.cloudwatch_logs_key_arn
 }

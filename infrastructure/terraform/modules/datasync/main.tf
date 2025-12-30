@@ -6,6 +6,8 @@ resource "aws_datasync_location_efs" "datasync_source" {
     subnet_arn          = var.private_subnet_arns[0]
   }
 
+  depends_on = [var.efs_mount_targets_ready]
+
   tags = {
     Name = "${var.project_name}-EFS-Source-Location"
   }
@@ -29,6 +31,7 @@ resource "aws_datasync_task" "datasync_backup_task" {
   name                     = "${var.project_name}-efs-backup-task"
   source_location_arn      = aws_datasync_location_efs.datasync_source.arn
   destination_location_arn = aws_datasync_location_s3.datasync_destination.arn
+  cloudwatch_log_group_arn = aws_cloudwatch_log_group.datasync_logs.arn
 
   options {
     bytes_per_second       = -1

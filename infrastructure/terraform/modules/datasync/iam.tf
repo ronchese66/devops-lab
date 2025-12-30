@@ -30,7 +30,7 @@ resource "aws_iam_role_policy" "datasync_s3_access" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid    = "Access to S3"
+        Sid    = "AccessToS3"
         Effect = "Allow"
         Action = [
           "s3:GetBucketLocation",
@@ -40,7 +40,7 @@ resource "aws_iam_role_policy" "datasync_s3_access" {
         Resource = aws_s3_bucket.backup_bucket.arn
       },
       {
-        Sid    = "Access to S3 objects"
+        Sid    = "AccessToS3Objects"
         Effect = "Allow"
         Action = [
           "s3:AbortMultipartUpload",
@@ -65,7 +65,7 @@ resource "aws_iam_role_policy" "datasync_efs_access" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid    = "Access to EFS"
+        Sid    = "AccessToEFS"
         Effect = "Allow"
         Action = [
           "elasticfilesystem:ClientMount",
@@ -77,7 +77,7 @@ resource "aws_iam_role_policy" "datasync_efs_access" {
         Resource = var.efs_file_system_arn
       },
       {
-        Sid    = "EFS Network access"
+        Sid    = "EFSNetworkAccess"
         Effect = "Allow"
         Action = [
           "ec2:DescribeNetworkInterfaces",
