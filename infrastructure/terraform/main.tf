@@ -19,11 +19,18 @@ module "sm" {
   secrets_manager_key_arn = module.kms.secrets_manager_key_arn
 }
 
+module "acm" {
+  source = "./modules/acm"
+  project_name = var.project_name
+  domain_name = var.domain_name
+  route53_public_hosted_zone_id = var.route53_public_hosted_zone_id
+}
+
 module "ecs" {
   source                  = "./modules/ecs"
   project_name            = var.project_name
   vpc_id                  = module.vpc.vpc_id
-  private_subnet_ids      = module.vpc.private_subnet_ids
+  private_subnet_ids      = values(module.vpc.private_subnet_ids)
   cloudwatch_logs_key_arn = module.kms.cloudwatch_logs_key_arn
   db_password_secret_arn  = module.sm.db_password_secret_arn
   secrets_manager_key_arn = module.kms.secrets_manager_key_arn
@@ -34,6 +41,8 @@ module "ecs" {
   efs_mount_target_sg_id  = module.efs.efs_mount_target_sg_id
   rds_sg_id = module.rds.rds_sg_id
   redis_sg = module.elasticache.redis_sg_id
+  app_target_group_arn = module.alb.app_target_group_arn
+  alb_sg_id = module.alb.alb_sg_id
 }
 
 module "rds" {
@@ -78,6 +87,8 @@ module "datasync" {
   private_subnet_arns     = module.vpc.private_subnet_arns
   backup_schedule         = var.backup_schedule
   notification_email      = var.notification_email
+  efs_mount_targets_ready = module.efs.efs_mount_targets_ready
+  cloudwatch_logs_key_arn = module.kms.cloudwatch_logs_key_arn
 }
 
 module "route53-internal" {
@@ -88,4 +99,23 @@ module "route53-internal" {
   rds_cluster_endpoint = module.rds.rds_cluster_endpoint
   redis_prim_endpoint = module.elasticache.redis_prim_endpoint
 }
+
+module "route53-public-records" {
+  source = "./modules/route53-public-records"
+  project_name = var.project_name
+  route53_public_hosted_zone_id = var.route53_public_hosted_zone_id
+  domain_name = var.domain_name
+  alb_dns_name = module.alb.alb_dns_name
+  alb_zone_id = module.alb.alb_zone_id
+}
+
+module "alb" {
+  source = "./modules/alb"
+  project_name = var.project_name
+  vpc_id = module.vpc.vpc_id
+  ecs_app_sg_id = module.ecs.ecs_app_sg_id
+  public_subnet_ids = module.vpc.public_subnet_ids
+  certificate_arn = module.acm.certificate_arn
+}
+
 

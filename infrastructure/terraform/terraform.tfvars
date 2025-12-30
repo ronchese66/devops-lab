@@ -1,4 +1,6 @@
 project_name                       = "immich"
+domain_name                        = "immich.ronchese.pp.ua"
+route53_public_hosted_zone_id      = "Z088325422DN2DZ1YRING"
 aws_region                         = "us-east-1"
 aws_profile                        = "terraform"
 enable_key_rotation                = true
@@ -7,7 +9,7 @@ cloudwatch_deletion_window_in_days = 7
 efs_deletion_window_in_days        = 30
 rds_deletion_window_in_days        = 30
 backup_schedule                    = "cron(0 3 * * ? *)" # Minute/Hour/Day/Month/Weekday/Year
-notification_email                 = "example@gmail.com"
+notification_email                 = "yronchese@gmail.com"
 dns_ttl = 300
 rds_backup_retention_period = 7
 rds_preferred_backup_window = "01:00-02:00"
