@@ -92,3 +92,51 @@ resource "aws_iam_role_policy" "datasync_efs_access" {
   })
 }
 
+resource "aws_iam_role_policy" "datasync_cloudwatch_access" {
+  name = "${var.project_name}-datasync-logs-policy"
+  role = aws_iam_role.datasync_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid = "AllowCloudWatchLogsWrite"
+        Effect = "Allow"
+        Action = [
+          "logs:CreateLogStream",
+          "logs:PutLogEvents",
+          "logs:DescribeLogStreams"
+        ]
+        Resource = "${aws_cloudwatch_log_group.datasync_logs.arn}:*"
+      }
+    ]
+  })
+}
+
+resource "aws_security_group" "datasync_sg" {
+  name = "${var.project_name}-datasync-sg"
+  vpc_id = var.vpc_id
+
+  tags = {
+    Name = "${var.project_name}-DataSync-SG"
+  }
+}
+
+resource "aws_security_group_rule" "datasync_outbound_nfs" {
+  security_group_id = aws_security_group.datasync_sg.id
+  type = "egress"
+  protocol = "tcp"
+  cidr_blocks = [var.vpc_cidr]
+  from_port = 2049
+  to_port = 2049
+}
+
+resource "aws_security_group_rule" "datasync_outbound_https" {
+  security_group_id = aws_security_group.datasync_sg.id
+  type = "egress"
+  protocol = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+  from_port = 443
+  to_port = 443
+}
+

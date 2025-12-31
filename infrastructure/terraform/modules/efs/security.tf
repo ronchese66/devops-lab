@@ -17,3 +17,12 @@ resource "aws_security_group_rule" "mount_targets_inbound_nfs" {
   from_port = 2049
   to_port   = 2049
 }
+
+resource "aws_security_group_rule" "mount_targets_inbound_datasync" {
+  security_group_id = aws_security_group.mount_targets.id
+  source_security_group_id = var.datasync_sg_id
+  type = "ingress"
+  protocol = "tcp"
+  from_port = 2049
+  to_port = 2049  
+}

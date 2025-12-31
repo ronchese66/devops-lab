@@ -7,3 +7,5 @@ variable "vpc_id" {}
 variable "private_subnet_ids" {}
 
 variable "ecs_app_sg_id" {}
+
+variable "datasync_sg_id" {}

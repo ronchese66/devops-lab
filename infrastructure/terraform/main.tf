@@ -67,6 +67,7 @@ module "efs" {
   private_subnet_ids = module.vpc.private_subnet_ids
   vpc_id             = module.vpc.vpc_id
   ecs_app_sg_id      = module.ecs.ecs_app_sg_id
+  datasync_sg_id = module.datasync.datasync_sg_id
 }
 
 module "elasticache" {
@@ -89,6 +90,8 @@ module "datasync" {
   notification_email      = var.notification_email
   efs_mount_targets_ready = module.efs.efs_mount_targets_ready
   cloudwatch_logs_key_arn = module.kms.cloudwatch_logs_key_arn
+  vpc_id = module.vpc.vpc_id
+  vpc_cidr = module.vpc.vpc_cidr
 }
 
 module "route53-internal" {

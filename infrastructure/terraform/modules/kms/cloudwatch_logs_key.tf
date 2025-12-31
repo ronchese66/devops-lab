@@ -72,6 +72,31 @@ resource "aws_kms_key_policy" "cloudwatch_logs_key_policy" {
             "kms:ViaService" = "ssm.${data.aws_region.current_region.name}.amazonaws.com"
           }
         }
+      },
+      {
+        Sid = "AllowDataSyncService"
+        Effect = "Allow"
+        Principal = {
+          Service = "datasync.amazonaws.com"
+        }
+        Action = [
+          "kms:Decrypt",
+          "kms:GenerateDataKey"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid = "AllowDataSyncRole"
+        Effect = "Allow"
+        Principal = {
+          AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.project_name}-datasync-role"
+        }
+        Action = [
+          "kms:Decrypt",
+          "kms:GenerateDataKey",
+          "kms:DescribeKey"
+        ]
+        Resource = "*"
       }
     ]
   })

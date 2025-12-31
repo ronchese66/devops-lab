@@ -1,5 +1,9 @@
 variable "project_name" {}
 
+variable "vpc_id" {}
+
+variable "vpc_cidr" {}
+
 variable "efs_file_system_arn" {}
 
 variable "efs_mount_target_sg_arn" {}
