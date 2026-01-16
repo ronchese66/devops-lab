@@ -6,25 +6,26 @@ The ultimate goal is to demonstrate the integration of CI/CD processes, Infrastr
 
 > ⚠️ This is not a reference implementation. It may contain mistakes or suboptimal decisions, which I intend to revisit and improve over time.
 
-To support this learning process, I’ve chosen to deploy [Immich](https://github.com/immich-app/immich) — a high-performance, self-hosted solution for managing personal photo and video libraries.
+To support this learning process, I’ve chosen [Immich](https://github.com/immich-app/immich) — a high-performance, self-hosted solution for managing personal photo and video libraries.
 
 Many thanks to the Immich team for their work on this great application.
 
+![Infrastructure Architecture Diagram](infrastructure-architecture.svg)
+
 ## 🛠️ Current State
 
-At this stage, the project has been completely restructured and is being built from scratch in the AWS Cloud. Work in progress...
+At this stage, the infrastructure has been successfully deployed in AWS Cloud, and the application is working smoothly.
+Refactoring and bug fixes are underway.
 
-More technical details can be found in the [archived/](./archived) (DEPRECATED!) directory and in the [DEVLOG](devlog.md).
+More details can be found in the [DEVLOG](devlog.md).
 
 ## 📌 Near-term plans
 
-This section outlines the key objectives I plan to tackle next as I continue improving the project:
+This section outlines the key objectives I plan to tackle next:
 
-- **Migration to AWS Cloud**  
-  Designing the entire infrastructure from scratch in Amazon Web Services Cloud. 
-
-
-
-
+- **Implement full CI/CD workflow with Jenkins**
+- **Integrate automated API & UI tests into CI**
+- **Enchance monitoring and metrics alasysis**
+- **Webhooks and advanced alerting**
 
 These tasks represent the immediate next steps in the ongoing development of this project.

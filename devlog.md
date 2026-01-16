@@ -232,3 +232,10 @@ Small changes:
 
 *P.S. I will update project description soon and add the architectural diagram, which needs to be tidied up. I will get to it...in the next year.*
 
+---
+*Jan, 16*
+
+*Update README, near-term plans, added architectural diagram (which, however, is not 100% complete).*
+
+*No major changes yet.*\
+*January was not without work; I am actively working on implementing CI/CD and automated testing.*
