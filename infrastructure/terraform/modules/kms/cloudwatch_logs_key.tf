@@ -8,7 +8,7 @@ resource "aws_kms_key" "cloudwatch_logs_key" {
   }
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 }
 

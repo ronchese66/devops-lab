@@ -11,7 +11,7 @@ resource "aws_kms_key" "secrets_manager_key" {
   }
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 }
 

@@ -7,7 +7,7 @@ resource "aws_kms_key" "rds_key" {
   }
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 }
 
