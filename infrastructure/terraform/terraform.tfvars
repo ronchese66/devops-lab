@@ -1,6 +1,6 @@
 project_name                       = "immich"
 domain_name                        = "immich.ronchese.pp.ua"
-route53_public_hosted_zone_id      = "Z088325422DN2DZ1YRING"
+route53_public_hosted_zone_id      = "Z00867251L6LZTRI4CK01"
 aws_region                         = "us-east-1"
 aws_profile                        = "terraform"
 enable_key_rotation                = true

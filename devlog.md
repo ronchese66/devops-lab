@@ -239,3 +239,16 @@ Small changes:
 
 *No major changes yet.*\
 *January was not without work; I am actively working on implementing CI/CD and automated testing.*
+
+---
+*Jan, 23*
+
+*Today I added the first automated contract tests using Schemathesis + pyTest.Now there are a few tests, I'll add more in the next days.*
+
+*I split the tests into endpoints groups and ran them independently. I was forced to do this because the OpenAPI Specification JSON is so complex (27k lines) and I don't have enough RAM to run them all. But it's opening a few more futures.*\
+*Fisrt, I can run every contract separately, which is quite comfortable for debugging.*\
+*Second, I moved some logic to the conftest file to avoid code duplication.*
+
+*There was some problems in Immich design. Production environment doesn't give OpenAPi JSON file, it's only available in dev env. This cannot be configured anyway, so there is nothing I can do. I took the openapi.json from dev container and it almost corectly works with prod env. Yes, not perfect idea, but at least it is working.*
+
+*I also plan to add functional tests, which are make CRUD operationson endpoints to ensure that functionality is working. Most likely, I'll use requests library.*
