@@ -252,3 +252,10 @@ Small changes:
 *There was some problems in Immich design. Production environment doesn't give OpenAPi JSON file, it's only available in dev env. This cannot be configured anyway, so there is nothing I can do. I took the openapi.json from dev container and it almost corectly works with prod env. Yes, not perfect idea, but at least it is working.*
 
 *I also plan to add functional tests, which are make CRUD operationson endpoints to ensure that functionality is working. Most likely, I'll use requests library.*
+
+---
+*Jan, 24*
+
+*I have completed the contract tests and added almost all endpoints. Some endpoints incorrectly processed by the server and do not meet the specification. So, I excluded them.*
+
+*All that's left is to write functional CRUD tests.*
