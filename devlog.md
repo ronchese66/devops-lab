@@ -259,3 +259,16 @@ Small changes:
 *I have completed the contract tests and added almost all endpoints. Some endpoints incorrectly processed by the server and do not meet the specification. So, I excluded them.*
 
 *All that's left is to write functional CRUD tests.*
+
+
+---
+*Jan, 26*
+
+*Today I wrote basic functional tests. Not many because of lack of time. Tomorrow I'll complete TestAlbumCRUD and continue writing tests.*
+
+*Briefly about the solution:*
+
+*I decided to use **requests + pytest**, ideally combination for my case.
+**api_client.py** contains all HTTP method's. You can put all request arguments you need after the endpoint.*\
+***validators,py** contains two function-validator to avoid code duplication. Their names answer the question what they do. In **check_list_response()** you can change **min_length** argument, default - 0.*\
+*In **conftest.py** are located pytest fixtures. It almost the same as conftest.py in contract/, without unused fixtures.*
