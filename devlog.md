@@ -272,3 +272,8 @@ Small changes:
 **api_client.py** contains all HTTP method's. You can put all request arguments you need after the endpoint.*\
 ***validators,py** contains two function-validator to avoid code duplication. Their names answer the question what they do. In **check_list_response()** you can change **min_length** argument, default - 0.*\
 *In **conftest.py** are located pytest fixtures. It almost the same as conftest.py in contract/, without unused fixtures.*
+
+---
+*Jan, 27*
+
+*Completed test_album.py, fixed some bugs. Nothing new.*
