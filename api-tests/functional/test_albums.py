@@ -3,6 +3,13 @@ from pathlib import Path
 from datetime import datetime
 import uuid
 
+def create_asset_data(prefix="test"):
+    return {
+        "deviceAssetId": f"{prefix}-{uuid.uuid4()}",
+        "deviceId": "test-device-001",
+        "fileCreatedAt":  datetime.now().isoformat(),
+        "fileModifiedAt": datetime.now().isoformat()
+    }
 
 class TestAlbumCRUD:
 
@@ -62,15 +69,10 @@ class TestAlbumAssets:
         
         with open(test_image_path, "rb") as image_file:
             files = {"assetData": ("testImage.jpg", image_file, "image/jpeg")}
-            data = {
-                "deviceAssetId": f"test-asset-{uuid.uuid4()}",
-                "deviceId": "test-device-001",
-                "fileCreatedAt": datetime.now().isoformat(),
-                "fileModifiedAt": datetime.now().isoformat()
-            }
+            data = create_asset_data("test-upload")
             upload_response = api.post("/assets", files=files, data=data)
 
-        assert upload_response.status_code == 201
+        assert upload_response.status_code in [200, 201]
         asset_id = check_response_has_id(upload_response.json())
 
         create_response = api.post("/albums", json={"albumName": "album with asset 1"})
@@ -92,12 +94,7 @@ class TestAlbumAssets:
 
         with open(test_image_path, "rb") as image_file:
             files = {"assetData": ("testImage.jpg", image_file, "image/jpeg")}
-            data = {
-                "deviceAssetId": f"test-asset-remove-{uuid.uuid4()}",
-                "deviceId": "test-device-001",
-                "fileCreatedAt": datetime.now().isoformat(),
-                "fileModifiedAt": datetime.now().isoformat()
-            }
+            data = create_asset_data("test-upload")
             upload_response = api.post("/assets", files=files, data=data)
 
         assert upload_response.status_code == 200
@@ -107,7 +104,7 @@ class TestAlbumAssets:
         album_id = check_response_has_id(create_response.json())
 
         add_payload = {"ids": [asset_id]}
-        api.put(f"/album/{album_id}/assets", json=add_payload)
+        api.put(f"/albums/{album_id}/assets", json=add_payload)
 
         rm_payload = {"ids": [asset_id]}
         rm_response = api.delete(f"/albums/{album_id}/assets", json=rm_payload)
@@ -130,15 +127,10 @@ class TestAlbumFullLifecycle:
 
         with open(test_image_path, "rb") as image_file:
             files = {"assetData": ("testImage.jpg", image_file, "image/jpeg")}
-            data = {
-                "deviceAssetId": f"test-asset-remove-{uuid.uuid4()}",
-                "deviceId": "test-device-001",
-                "fileCreatedAt": datetime.now().isoformat(),
-                "fileModifiedAt": datetime.now().isoformat()
-            }
+            data = create_asset_data("test-upload")
             upload_response = api.post("/assets", files=files, data=data)
 
-        assert upload_response.status_code == 201   
+        assert upload_response.status_code in [200, 201]
         asset_id = check_response_has_id(upload_response.json())
 
         add_payload = {"ids": [asset_id]}

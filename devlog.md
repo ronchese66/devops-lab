@@ -277,3 +277,12 @@ Small changes:
 *Jan, 27*
 
 *Completed test_album.py, fixed some bugs. Nothing new.*
+
+---
+*Jan, 29*
+
+*Added tests for /assets.*
+
+*The Immich API doesn't support bulk operations for GET, POST, UPDATE, so I discarded them.*
+
+*Still having a lack of time, that's why tempo of writing tests is so slow.*
