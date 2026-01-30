@@ -286,3 +286,14 @@ Small changes:
 *The Immich API doesn't support bulk operations for GET, POST, UPDATE, so I discarded them.*
 
 *Still having a lack of time, that's why tempo of writing tests is so slow.*
+
+---
+*Jan, 30*
+
+*Added tests for /activities, /users, /trash.*
+
+***Warning: /trash tests may crash application if they run before other tests. I don't know why, they just drop the connection. If run the /trash tests after all another tests, they finish correctly.***
+
+*I'll finish here. I won't write more tests. Contract tests and main functionality were tested, and I'm satisfied.*
+*Testing isn't my main skill and not the main goal of the project.*
+*I should go next to CI/CD implementation, and that, at least, more interesting for me.*
