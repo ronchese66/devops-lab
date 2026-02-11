@@ -297,3 +297,20 @@ Small changes:
 *I'll finish here. I won't write more tests. Contract tests and main functionality were tested, and I'm satisfied.*
 *Testing isn't my main skill and not the main goal of the project.*
 *I should go next to CI/CD implementation, and that, at least, more interesting for me.*
+
+---
+*Feb, 11*
+
+*For Jenkins dynamic agents I added Docker Swarm cluster on local virtual machines.*\
+*VMs are based on VirtualBox and deployed with Vagrant. Box/OS for all nodes is CentOS Stream 9 Generic (generic/centos9s).*
+
+*Cluster has one Swarm Manager and two Worker nodes. Manager node is set to not run tasks, it delegates them to workers. Maybe there's not need for two workers, but I want to try distributed pipelines.*
+
+*Firewall on manager node opened required Swarm ports:*\
+- 2377/tcp for cluster management
+- 7946/tcp and 7946/udp for node communication
+- 4789/udp for overlay network
+
+*VMs were configured and joined into Docker Swarm using Ansible. I used community.docker for Docker workflow.*
+
+*Ansible playbook YAML syntax is self-documented, so no need for detailed explanations, just read it.*
