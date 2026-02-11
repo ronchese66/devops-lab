@@ -2,7 +2,7 @@
 
 This repository documents my personal journey in learning and applying DevOps & CloudOps practices, methodologies, and toolkit through a practical, evolving project.
 
-The ultimate goal is to demonstrate the integration of CI/CD processes, Infrastructure as Code (IaC), cloud infrastructure, and monitoring, metric collection and analysis — all added progressively as I advance in my skills.
+The ultimate goal is to demonstrate the integration of CI/CD processes, Infrastructure as Code (IaC), cloud infrastructure, and monitoring — all added progressively as I advance in my skills.
 
 > ⚠️ This is not a reference implementation. It may contain mistakes or suboptimal decisions, which I intend to revisit and improve over time.
 
