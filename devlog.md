@@ -314,3 +314,14 @@ Small changes:
 *VMs were configured and joined into Docker Swarm using Ansible. I used community.docker for Docker workflow.*
 
 *Ansible playbook YAML syntax is self-documented, so no need for detailed explanations, just read it.*
+
+---
+*Feb, 16*
+
+*After experimenting with Docker Swarm, I decided to remove it. The App architecture does not require Swarm features. Besides, I figured out the Jenkins Docker plugin. There is no need in Swarm for dynamic agents and parallel stages. At least in my case*
+
+*I will use Jenkins Docker plugin and connect to nodes via SSH. App containers will run side by side with jenkins agent container as before.*
+
+*But, for build the app, I mounted the /opt/jenkins_workspace derectory from host to the agent container so that the agent can clone repo, set .env file, etc. This directory will emptied after stop app containers.*
+
+*The jenkins user on host and agent container both have UID/GID 2000 for solve permissions issue.*
