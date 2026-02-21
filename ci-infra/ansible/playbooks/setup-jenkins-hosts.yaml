@@ -39,3 +39,85 @@
         name: jenkins
         groups: docker 
         append: true
+
+- name: Copy TLS certificates  
+  hosts: jenkins_hosts
+  become: true
+  tasks:
+
+    - name: Create docker certs directory
+      ansible.builtin.file:
+        path: /etc/docker/certs
+        state: directory
+        mode: '0755'
+
+    - name: Copy CA 
+      ansible.builtin.copy:
+        src: "{{ lookup('env', 'HOME') }}/docker-certs/ca.pem"
+        dest: /etc/docker/certs/ca.pem 
+        mode: '0644'
+
+    - name: Copy server private key 
+      ansible.builtin.copy:
+        src: "{{ lookup('env', 'HOME') }}/docker-certs/{{ inventory_hostname }}-key.pem"
+        dest: /etc/docker/certs/server-key.pem 
+        mode: '0600'
+
+    - name: Copy server cert 
+      ansible.builtin.copy:
+        src: "{{ lookup('env', 'HOME') }}/docker-certs/{{ inventory_hostname }}-cert.pem"
+        dest: /etc/docker/certs/server-cert.pem
+        mode: '0644'
+
+
+- name: Configure docker daemon 
+  hosts: jenkins_hosts
+  become: true
+  tasks:
+
+    - name: Configure docker daemon fot TLS 
+      ansible.builtin.copy:
+        content: |
+          {
+            "tls": true,
+            "tlscacert": "/etc/docker/certs/ca.pem",
+            "tlscert": "/etc/docker/certs/server-cert.pem",
+            "tlskey": "/etc/docker/certs/server-key.pem",
+            "tlsverify": true,
+            "hosts": ["unix:///var/run/docker.sock", "tcp://0.0.0.0:2376"]
+          }
+        dest: /etc/docker/daemon.json
+        mode: '0644'
+
+    - name: Create docker.service.d directory 
+      ansible.builtin.file:
+        path: /etc/systemd/system/docker.service.d 
+        state: directory
+        mode: '0755'
+    
+    - name: Override systemd service 
+      ansible.builtin.copy:
+        content: |
+          [Service]
+          ExecStart=
+          ExecStart=/usr/bin/dockerd 
+        dest: /etc/systemd/system/docker.service.d/override.conf 
+        mode: '0644'
+
+- name: Restarts after complete configuration
+  hosts: jenkins_hosts
+  become: true
+  tasks:
+
+    - name: Restart docker & containerd 
+      ansible.builtin.systemd_service:
+        name: "{{ item }}"
+        daemon_reload: true
+        state: restarted
+      loop:
+        - docker 
+        - containerd
+
+
+
+    

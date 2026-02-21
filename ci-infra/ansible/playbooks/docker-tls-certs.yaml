@@ -1,0 +1,105 @@
+---
+
+- name: Generate TLS certs for Docker Remote API
+  hosts: localhost
+  connection: local 
+  
+  vars:
+    certs_dir: "{{ lookup('env', 'HOME') }}/docker-certs"
+    ca_key: "{{ certs_dir }}/ca-key.pem"
+    ca_cert: "{{ certs_dir }}/ca.pem" 
+
+  tasks:
+
+    - name: Create certs directory
+      ansible.builtin.file:
+        path: "{{ certs_dir }}"
+        state: directory
+        mode: '0700'
+
+    - name: Generate CA private key 
+      community.crypto.openssl_privatekey:
+        path: "{{ ca_key }}"
+
+    - name: Generate CA CSR 
+      community.crypto.openssl_csr:
+        path: "{{ certs_dir }}/ca.csr"
+        privatekey_path: "{{ ca_key }}"
+        basic_constraints:
+          - "CA:TRUE"
+
+    - name: Generate CA certificate
+      community.crypto.x509_certificate:
+        path: "{{ ca_cert }}"
+        csr_path: "{{ certs_dir }}/ca.csr"
+        privatekey_path: "{{ ca_key }}"
+        provider: selfsigned
+        selfsigned_not_after: "+3650d"
+      
+    - name: Generate server private key for jenkins-1
+      community.crypto.openssl_privatekey:
+        path: "{{ certs_dir }}/jenkins-1-key.pem"
+
+    - name: Generate CSR for jenkins-1 
+      community.crypto.openssl_csr:
+        path: "{{ certs_dir }}/jenkins-1.csr"
+        privatekey_path: "{{ certs_dir }}/jenkins-1-key.pem"
+        subject_alt_name:
+          - "DNS:jenkins-1"
+          - "IP:192.168.56.101"
+
+    - name: Sign jenkins-1 certificate 
+      community.crypto.x509_certificate:
+        path: "{{ certs_dir }}/jenkins-1-cert.pem"
+        csr_path: "{{ certs_dir }}/jenkins-1.csr"
+        provider: ownca
+        ownca_path: "{{ ca_cert }}"
+        ownca_privatekey_path: "{{ ca_key }}"
+        ownca_not_after: "+365d"
+
+    - name: Generate server private key for jenkins-2
+      community.crypto.openssl_privatekey:
+        path: "{{ certs_dir }}/jenkins-2-key.pem"
+
+    - name: Generate CSR for jenkins-2
+      community.crypto.openssl_csr:
+        path: "{{ certs_dir }}/jenkins-2.csr"
+        privatekey_path: "{{ certs_dir }}/jenkins-2-key.pem"
+        subject_alt_name:
+          - "DNS:jenkins-2"
+          - "IP:192.168.56.102"
+
+    - name: Sign jenkins-2 certificate
+      community.crypto.x509_certificate:
+        path: "{{ certs_dir }}/jenkins-2-cert.pem"
+        csr_path: "{{ certs_dir }}/jenkins-2.csr"
+        provider: ownca 
+        ownca_path: "{{ ca_cert }}"
+        ownca_privatekey_path: "{{ ca_key }}"
+        ownca_not_after: "+365d"
+
+    - name: Generate client (Jenkins master) private key
+      community.crypto.openssl_privatekey:
+        path: "{{ certs_dir }}/client-key.pem"
+
+    - name: Generate CSR for client
+      community.crypto.openssl_csr:
+        path: "{{ certs_dir }}/client.csr"
+        privatekey_path: "{{ certs_dir }}/client-key.pem"
+        common_name: "jenkins-master"
+        extended_key_usage:
+          - clientAuth
+
+    - name: Sign client certificate
+      community.crypto.x509_certificate:
+        path: "{{ certs_dir }}/client-cert.pem"
+        csr_path: "{{ certs_dir }}/client.csr"
+        provider: ownca
+        ownca_path: "{{ ca_cert }}"
+        ownca_privatekey_path: "{{ ca_key }}"
+        ownca_not_after: "+365d"
+
+    - name: Display generated result
+      ansible.builtin.debug:
+        msg: "Certificates successfully generated in {{ certs_dir }}/"
+
