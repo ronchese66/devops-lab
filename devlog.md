@@ -320,8 +320,15 @@ Small changes:
 
 *After experimenting with Docker Swarm, I decided to remove it. The App architecture does not require Swarm features. Besides, I figured out the Jenkins Docker plugin. There is no need in Swarm for dynamic agents and parallel stages. At least in my case*
 
-*I will use Jenkins Docker plugin and connect to nodes via SSH. App containers will run side by side with jenkins agent container as before.*
+*I will use Jenkins Docker plugin and connect to nodes via Docker Remote API. App containers will run side by side with jenkins agent container as before.*
 
 *But, for build the app, I mounted the /opt/jenkins_workspace derectory from host to the agent container so that the agent can clone repo, set .env file, etc. This directory will emptied after stop app containers.*
 
 *The jenkins user on host and agent container both have UID/GID 2000 for solve permissions issue.*
+
+---
+*Feb, 21*
+
+*In bried: I added playbook for generating TLS certificates for connection between Jenkins Docker Plugin and Docker Remote API on hosts. Ansible module community.crypto is awesome. Of course you must run docker-tls-certs playbook before you can run setup-jenkins-hosts. Don't forget to mount certs to Jenkins master container.*
+
+*Next milestone - configure Docker Clouds with Docker Plugin and move entire configuration to Jenkins Configuration as Code.*
