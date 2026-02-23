@@ -39,6 +39,14 @@
         name: jenkins
         groups: docker 
         append: true
+    
+    - name: Open port 2376 
+      ansible.posix.firewalld:
+        port: 2376/tcp 
+        state: enabled 
+        permanent: true 
+        immediate: true
+
 
 - name: Copy TLS certificates  
   hosts: jenkins_hosts

@@ -25,6 +25,7 @@
       community.crypto.openssl_csr:
         path: "{{ certs_dir }}/ca.csr"
         privatekey_path: "{{ ca_key }}"
+        common_name: "Docker CA"
         basic_constraints:
           - "CA:TRUE"
 
@@ -47,6 +48,7 @@
         subject_alt_name:
           - "DNS:jenkins-1"
           - "IP:192.168.56.101"
+        subject_alt_name_critical: true
 
     - name: Sign jenkins-1 certificate 
       community.crypto.x509_certificate:
@@ -68,6 +70,7 @@
         subject_alt_name:
           - "DNS:jenkins-2"
           - "IP:192.168.56.102"
+        subject_alt_name_critical: true
 
     - name: Sign jenkins-2 certificate
       community.crypto.x509_certificate:
