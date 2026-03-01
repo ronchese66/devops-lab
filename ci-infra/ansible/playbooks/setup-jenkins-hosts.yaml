@@ -10,6 +10,11 @@
       args:
         creates: /etc/yum.repos.d/docker-ce.repo
 
+    - name: Create docker group with fixed GID
+      ansible.builtin.group:
+        name: docker 
+        gid: 2001
+
     - name: Install Docker Engine, Compose, BuildX, Python-docker
       ansible.builtin.dnf:
         name:
