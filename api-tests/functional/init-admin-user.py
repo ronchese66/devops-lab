@@ -2,7 +2,7 @@ import requests
 import os
 from pathlib import Path
 
-BASE_URL = "http:localhost:2283/api"
+BASE_URL = "http://host.docker.internal:2283/api"
 ADMIN_TEST_EMAIL = "test@gmail.com"
 ADMIN_PASSWORD = "test1234"
 API_KEY_NAME = "test-api-key"
