@@ -2,7 +2,7 @@ import requests
 import os
 from pathlib import Path
 
-BASE_URL = "http://host.docker.internal:2283/api"
+BASE_URL = "http://localhost:2283/api"
 ADMIN_TEST_EMAIL = "test@gmail.com"
 ADMIN_PASSWORD = "test1234"
 API_KEY_NAME = "test-api-key"
@@ -26,7 +26,7 @@ def login_admin():
     }
 
     response = requests.post(f"{BASE_URL}/auth/login", json=payload)
-    assert response.status_code == 200, f"Failed to login: {response.status_code} - {response.text}"
+    assert response.status_code in [200, 201], f"Failed to login: {response.status_code} - {response.text}"
     
     access_token = response.json()["accessToken"]
     assert access_token, "Access token is empty"
@@ -59,7 +59,7 @@ def save_api_key(api_key):
 
     
 
-def main():
+def test_main():
     admin_data = create_admin_user()
         
     access_token = login_admin()

@@ -19,7 +19,7 @@ def api_key():
 
 @pytest.fixture(scope="session")
 def base_url():
-    return "http://host.docker.internal:2283/api"
+    return "http://localhost:2283/api"
 
 @pytest.fixture(scope="session")
 def api(base_url, api_key):
