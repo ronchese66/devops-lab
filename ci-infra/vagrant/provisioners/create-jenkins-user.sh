@@ -13,6 +13,6 @@ chown -R jenkins:jenkins /home/jenkins/.ssh
 groupadd -g 2000 jenkins-shared
 usermod -aG jenkins-shared jenkins
 
-mkdir -p /opt/jenkins_workspace
-chown -R jenkins:jenkins-shared /opt/jenkins_workspace
-chmod 2770 /opt/jenkins_workspace
+mkdir -p /home/jenkins/jenkins_workspace
+chown -R jenkins:jenkins-shared /home/jenkins/jenkins_workspace
+chmod 2770 /home/jenkins/jenkins_workspace
