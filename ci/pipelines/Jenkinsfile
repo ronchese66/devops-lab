@@ -1,0 +1,168 @@
+pipeline {
+    agent none
+
+    stages {
+        stage('Clone test repository') {
+            parallel {
+                stage('Node 1: Clone Tests') {
+                    agent { label 'test-docker-agent-1' }
+                    steps {
+                        dir('workspace/tests') {
+                            git branch: 'main', url: 'https://github.com/ronchese66/devops-lab.git'
+                        }
+                    }
+                }
+                stage('Node 2: Clone Tests') {
+                    agent { label 'test-docker-agent-2' }
+                    steps {
+                        dir('workspace/tests') {
+                            git branch: 'main', url: 'https://github.com/ronchese66/devops-lab.git'
+                        }                    
+                    }
+                }
+            }
+        }
+        stage('Download Application') {
+            parallel {
+                stage('Node 1: Download Application') {
+                    agent { label 'test-docker-agent-1' }
+                    steps {
+                        sh 'mkdir -p workspace/immich'
+                        sh 'wget -O workspace/immich/docker-compose.yml https://github.com/immich-app/immich/releases/latest/download/docker-compose.yml'
+                        sh 'wget -O workspace/immich/.env https://github.com/immich-app/immich/releases/latest/download/example.env'
+                    }
+                }
+                stage('Node 2: Download Application') {
+                    agent { label 'test-docker-agent-2' }
+                    steps {
+                        sh 'mkdir -p workspace/immich'
+                        sh 'wget -O workspace/immich/docker-compose.yml https://github.com/immich-app/immich/releases/latest/download/docker-compose.yml'
+                        sh 'wget -O workspace/immich/.env https://github.com/immich-app/immich/releases/latest/download/example.env'
+                    }
+                }
+            }
+        }
+        stage('Start App container') {
+            parallel {
+                stage('Node 1: Start Immich') {
+                    agent { label 'test-docker-agent-1' }
+                    steps {
+                        sh 'cd workspace/immich && docker compose up -d'
+                        sh '''
+                        timeout 120 sh -c "until docker inspect --format='{{.State.Health.Status}}' immich_server | grep -q healthy; do
+                            echo 'Waiting for immich_server to be healthy...'
+                            sleep 3
+                        done"
+                        '''
+                    }
+                }
+                stage('Node 2: Start Immich') {
+                    agent { label 'test-docker-agent-2' }
+                    steps {
+                        sh 'cd workspace/immich && docker compose up -d'
+                        sh '''
+                        timeout 120 sh -c "until docker inspect --format='{{.State.Health.Status}}' immich_server | grep -q healthy; do
+                            echo 'Waiting for immich_server to be healthy...'
+                            sleep 3
+                        done"
+                        '''
+                    }
+                }
+            }
+        }
+        stage('Init admin user') {
+            parallel {
+                stage('Node 1: Create Admin & Obtain API Key') {
+                    agent { label 'test-docker-agent-1' }
+                    steps {
+                        sh 'cd workspace/tests/api-tests && pytest functional/init-admin-user.py -v'
+                    }
+                }
+                stage('Node 2: Create Admin & Obtain API Key') {
+                    agent { label 'test-docker-agent-2' }
+                    steps {
+                        sh 'cd workspace/tests/api-tests && pytest functional/init-admin-user.py -v'
+                    }
+                }
+            }
+        }
+        stage('Run API tests') {
+            parallel {
+                stage('Node 1: Functional Tests') {
+                    agent { label 'test-docker-agent-1' }
+                    steps {
+                        dir('workspace/tests/api-tests') {
+                            sh 'mkdir -p results'
+                            sh 'pytest functional/test_albums.py -v --junitxml=results/test_albums.xml || true'
+                            sh 'pytest functional/test_activities.py -v --junitxml=results/test_activities.xml || true'
+                            sh 'pytest functional/test_assets.py -v --junitxml=results/test_assets.xml || true'
+                            sh 'pytest functional/test_users.py -v --junitxml=results/test_users.xml || true'
+                            sh 'pytest functional/test_trash.py -v --junitxml=results/test_trash.xml || true' 
+                        }
+                    }
+                    post {
+                        always {
+                            junit 'workspace/tests/api-tests/results/*.xml'
+                        }
+                    }
+                }
+                stage('Node 2: Contract Tests') {
+                    agent { label 'test-docker-agent-2' }
+                    steps {
+                        dir('workspace/tests/api-tests') {
+                            sh 'mkdir -p results'
+                            sh 'pytest contract/test_activities_contract.py -v --junitxml=results/test_activities_contract.xml || true'
+                            sh 'pytest contract/test_albums_contract.py -v --junitxml=results/test_albums_contract.xml || true'
+                            sh 'pytest contract/test_assets_contract.py -v --junitxml=results/test_assets_contract.xml || true'
+                            sh 'pytest contract/test_auth_contract.py -v --junitxml=results/test_auth_contract.xml || true'
+                            sh 'pytest contract/test_download_contract.py -v --junitxml=results/test_download_contract.xml || true'
+                            sh 'pytest contract/test_duplicates_contract.py -v --junitxml=results/test_duplicates_contract.xml || true'
+                            sh 'pytest contract/test_faces_contract.py -v --junitxml=results/test_faces_contract.xml || true'
+                            sh 'pytest contract/test_libraries_contract.py -v --junitxml=results/test_libraries_contract.xml || true'
+                            sh 'pytest contract/test_notifications_contract.py -v --junitxml=results/test_notifications_contract.xml || true'
+                            sh 'pytest contract/test_people_contract.py -v --junitxml=results/test_people_contract.xml || true'
+                            sh 'pytest contract/test_queues_contract.py -v --junitxml=results/test_queues_contract.xml || true'
+                            sh 'pytest contract/test_search_contract.py -v --junitxml=results/test_search_contract.xml || true'
+                            sh 'pytest contract/test_server_contract.py -v --junitxml=results/test_server_contract.xml || true'
+                            sh 'pytest contract/test_sessions_contract.py -v --junitxml=results/test_sessions_contract.xml || true'
+                            sh 'pytest contract/test_sharlinks_contract.py -v --junitxml=results/test_sharlinks_contract.xml || true'
+                            sh 'pytest contract/test_stacks_contract.py -v --junitxml=results/test_stacks_contract.xml || true'
+                            sh 'pytest contract/test_sysmetadata_contract.py -v --junitxml=results/test_sysmetadata_contract.xml || true'
+                            sh 'pytest contract/test_tags_contract.py -v --junitxml=results/test_tags_contract.xml || true'
+                            sh 'pytest contract/test_users_contract.py -v --junitxml=results/test_users_contract.xml || true'
+                            sh 'pytest contract/test_workflows_contract.py -v --junitxml=results/test_workflows_contract.xml || true'
+                            sh 'pytest contract/test_trash_contract.py -v --junitxml=results/test_trash_contract.xml || true'
+
+                        }
+                    }
+                    post {
+                        always {
+                            junit 'workspace/tests/api-tests/results/*.xml'
+                            sh 'rm -rf workspace/tests/api-tests/results'
+                        }
+                    }
+                }
+            }
+        }
+        stage('Cleanup') {
+            parallel {
+                stage('Node 1: Cleanup') {
+                    agent { label 'test-docker-agent-1' }
+                    steps {
+                        sh 'cd workspace/immich && docker compose down -v --rmi all'
+                        sh 'docker system prune -af --volumes'
+                        sh 'rm -rf workspace/*'
+                    }
+                }
+                stage('Node 2: Cleanup') {
+                    agent { label 'test-docker-agent-2' }
+                    steps {
+                        sh 'cd workspace/immich && docker compose down -v --rmi all'
+                        sh 'docker system prune -af --volumes'
+                        sh 'rm -rf workspace/*'
+                    }
+                }
+            }
+        }
+    }
+}
