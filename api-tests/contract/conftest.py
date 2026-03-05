@@ -9,7 +9,7 @@ API_KEY_HEADER = "x-api-key"
 
 @pytest.fixture(scope="session")
 def api_key():
-    token_file = Path(__file__).parent / "api_token.txt"
+    token_file = Path(__file__).parent.parent / "api_token.txt"
     if not token_file.exists():
         raise RuntimeError(f"File {token_file} not found. First run init-admin-user.py")
     

@@ -49,7 +49,7 @@ def create_api_ley(access_token):
     return api_key
 
 def save_api_key(api_key):
-    script_dir = Path(__file__).parent
+    script_dir = Path(__file__).parent.parent
     token_file = script_dir / "api_token.txt"
 
     with open(token_file, "w") as file:

@@ -6,7 +6,7 @@ API_KEY_ENV = "IMMICH_API_KEY"
 
 @pytest.fixture(scope="session")
 def api_key():
-    token_file = Path(__file__).parent / "api_token.txt"
+    token_file = Path(__file__).parent.parent / "api_token.txt"
     if not token_file.exists():
         raise RuntimeError(f"File {token_file} not found. Run init-admin-user.py first")
     
