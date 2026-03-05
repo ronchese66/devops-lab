@@ -3,7 +3,7 @@ import schemathesis
 from schemathesis.checks import not_a_server_error
 from pathlib import Path
 
-OPENAPI_FILE = "openapi.json"
+OPENAPI_FILE = Path(__file__).parent / "openapi.json"
 API_KEY_ENV = "IMMICH_API_KEY"
 API_KEY_HEADER = "x-api-key"
 
