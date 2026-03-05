@@ -1,7 +1,7 @@
-import os
 import pytest
 import schemathesis
 from schemathesis.checks import not_a_server_error
+from pathlib import Path
 
 OPENAPI_FILE = "openapi.json"
 API_KEY_ENV = "IMMICH_API_KEY"
@@ -9,14 +9,19 @@ API_KEY_HEADER = "x-api-key"
 
 @pytest.fixture(scope="session")
 def api_key():
-    api_key = os.getenv(API_KEY_ENV)
+    token_file = Path(__file__).parent / "api_token.txt"
+    if not token_file.exists():
+        raise RuntimeError(f"File {token_file} not found. First run init-admin-user.py")
+    
+    api_key = token_file.read_text().strip()
+
     if not api_key:
-        raise RuntimeError(f"ENV {API_KEY_ENV} not set or invalid")
+        raise RuntimeError(f"File {token_file} is empty")
     return api_key
 
 @pytest.fixture(scope="session")
 def base_url():
-    return "http://localhost:2283/api"
+    return "http://host.docker.internal:2283/api"
 
 @pytest.fixture(scope="session")
 def headers(api_key):
