@@ -47,7 +47,7 @@
         privatekey_path: "{{ certs_dir }}/jenkins-1-key.pem"
         subject_alt_name:
           - "DNS:jenkins-1"
-          - "IP:192.168.56.101"
+          - "IP:192.168.0.121"
         subject_alt_name_critical: true
 
     - name: Sign jenkins-1 certificate 
@@ -69,7 +69,7 @@
         privatekey_path: "{{ certs_dir }}/jenkins-2-key.pem"
         subject_alt_name:
           - "DNS:jenkins-2"
-          - "IP:192.168.56.102"
+          - "IP:192.168.0.122"
         subject_alt_name_critical: true
 
     - name: Sign jenkins-2 certificate
