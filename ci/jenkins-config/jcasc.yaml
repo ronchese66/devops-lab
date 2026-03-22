@@ -1,2 +1,57 @@
 jenkins:
   systemMessage: "Is this a real build? Is this just fantasy?"
+  clouds:
+  - docker:
+      containerCap: 10
+      dockerApi:
+        connectTimeout: 60
+        dockerHost:
+          credentialsId: "docker-tls-cert"
+          uri: "${DOCKER_HOST_1}"
+        readTimeout: 60
+      name: "jenkins-1"
+      templates:
+      - connector:
+          jnlp: {}
+        dockerTemplateBase:
+          extraHosts:
+          - "host.docker.internal:host-gateway"
+          image: "yronchese/jenkins-agent-tests:latest"
+          mounts:
+          - "type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock"
+          - "type=bind,source=/home/jenkins/jenkins_workspace,target=/home/jenkins/workspace"
+          pullCredentialsId: "jenkins-dockerhub-token"
+        instanceCapStr: "3"
+        labelString: "test-docker-agent-1"
+        mode: EXCLUSIVE
+        name: "Tests Agent"
+        pullTimeout: 300
+        remoteFs: "/home/jenkins"
+        removeVolumes: true
+  - docker:
+      containerCap: 10
+      dockerApi:
+        connectTimeout: 60
+        dockerHost:
+          credentialsId: "docker-tls-cert"
+          uri: "${DOCKER_HOST_2}"
+        readTimeout: 60
+      name: "jenkins-2"
+      templates:
+      - connector:
+          jnlp: {}
+        dockerTemplateBase:
+          extraHosts:
+          - "host.docker.internal:host-gateway"
+          image: "yronchese/jenkins-agent-tests:latest"
+          mounts:
+          - "type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock"
+          - "type=bind,source=/home/jenkins/jenkins_workspace,target=/home/jenkins/workspace"
+          pullCredentialsId: "jenkins-dockerhub-token"
+        instanceCapStr: "3"
+        labelString: "test-docker-agent-2"
+        mode: EXCLUSIVE
+        name: "Tests Agent"
+        pullTimeout: 300
+        remoteFs: "/home/jenkins"
+        removeVolumes: true
