@@ -135,18 +135,6 @@ resource "aws_network_acl_rule" "public_inbound_ephemeral" {
   to_port        = 65535
 }
 
-resource "aws_network_acl_rule" "public_inbound_icmp" {
-  for_each       = aws_network_acl.public_nacl
-  network_acl_id = each.value.id
-  rule_number    = 110
-  egress         = false
-  protocol       = "icmp"
-  rule_action    = "allow"
-  cidr_block     = "0.0.0.0/0"
-  icmp_type      = -1
-  icmp_code      = -1
-}
-
 resource "aws_network_acl_rule" "public_outbound_all" {
   for_each       = aws_network_acl.public_nacl
   network_acl_id = each.value.id
