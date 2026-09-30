@@ -48,7 +48,7 @@ resource "aws_elasticache_replication_group" "redis_replic_group" {
   auto_minor_version_upgrade = true
 
   maintenance_window = var.redis_maintenance_window
-  snapshot_retention_limit = 0
+  snapshot_retention_limit = 1
 
   log_delivery_configuration {
     destination = aws_cloudwatch_log_group.redis_engine_log.name

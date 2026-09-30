@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket       = "ronchese-immich-terraform-state"
+    bucket       = "immich-ronchese-s3-state"
     key          = "dns/terraform.tfstate"
     region       = "us-east-1"
     encrypt      = true

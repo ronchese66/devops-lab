@@ -121,4 +121,8 @@ module "alb" {
   certificate_arn = module.acm.certificate_arn
 }
 
+module "cloudtrail" {
+  source = "./modules/cloudtrail"
+  project_name = var.project_name
+}
 
